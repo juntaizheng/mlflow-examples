@@ -42,10 +42,5 @@ for i in args.feat_cols:
 #Reading the parquet file into a pandas dataframe.
 pandasData = pandas.read_parquet(args.data_path)
 
-pandasData['cut'] = pandasData['cut'].replace({'Fair':0, 'Good':1, 'Very Good':2, 'Premium':3, 'Ideal':4})
-pandasData['color'] = pandasData['color'].replace({'J':0, 'I':1, 'H':2, 'G':3, 'F':4, 'E':5, 'D':6})
-pandasData['clarity'] = pandasData['clarity'].replace({'I1':0, 'SI1':1, 'SI2':2, 'VS1':3, 'VS2':4, 
-															'VVS1':5, 'VVS2':6, 'IF':7})
-
 # Train the model based on the parameters provided.
 train_gbt.train(args, pandasData)
