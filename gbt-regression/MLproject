@@ -1,0 +1,14 @@
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      data_path: str
+      n_trees: int
+      m_depth: int
+      learning_rate: float
+      test_percent: float
+      loss: str
+      label_col: str
+      feat_cols: str
+    command: "python gbt.py {data_path} {n_trees} {m_depth} {learning_rate} {test_percent} {loss} {label_col} {feat_cols}"

@@ -54,7 +54,8 @@ Specifically, you’ll need to write logic to:
 It’d be great to note any challenges / usability quirks you hit when using MLflow - 
 we can use the feedback to refine the MLflow APIs.
 '''
-# An example call: python example/experiments/gbt.py diamonds 10 10 .2 .3 rmse price carat cut color clarity depth table x y z
+# An example local call: python example/experiments/gbt.py diamonds 100 10 .2 .3 rmse price "carat,cut,color,clarity,depth,table,x,y,z"
+# An example mlflow call: mlflow run gbt-regression -P data_path="diamonds" -P n_trees=10 -P m_depth=10 -P learning_rate=.2 -P test_percent=.3 -P loss="rmse" -P label_col="price" -P feat_cols="carat","cut","color","clarity","depth","table","x","y","z"
 # Parsing arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument("data_path", help="Path to parquet dataset file. Input 'diamonds' to use the sample dataset.",
@@ -72,11 +73,11 @@ parser.add_argument("loss", help="""Loss function to use. See
                     type=str)
 parser.add_argument("label_col", help="Name of label column.",
                     type=str)
-parser.add_argument("feat_cols", help="List of feature column names.",
-                    nargs = '+')
+parser.add_argument("feat_cols", help="List of feature column names. Input must be a single string with columns delimited by commas.",
+                    type=lambda s: [str(i) for i in s.split(',')])
 args = parser.parse_args()
 
-print("data path:    ", args.data_path)
+print("data_path:    ", args.data_path)
 print("n_trees:      ", args.n_trees)
 print("m_depth:      ", args.m_depth)
 print("learning_rate:", args.learning_rate)
@@ -160,14 +161,16 @@ log_parameter("Label column", args.label_col)
 log_parameter("Feature columns", args.feat_cols)
 log_parameter("Number of data points", len(features))
 
+#Logging the accuracy.
 log_metric("Accuracy", accuracy)
 
 log_output_files("outputs")
 
+#Saving the model as an artifact.
 log_model(xgbr, "model")
 
 print("Model saved in mlruns/%s" % active_run_id())
 
-
+#Determining how long the program took.
 print("This model took", time, "seconds to run")
 log_metric("Time to run", time)
