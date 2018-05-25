@@ -11,4 +11,14 @@ entry_points:
       loss: str
       label-col: str
       feat-cols: str
-    command: "python gbt.py {data-path} {n-trees} {m-depth} {learning-rate} {test-percent} {loss} {label-col} {feat-cols}"
+    command: "python main_gbt.py {data-path} {n-trees} {m-depth} {learning-rate} {test-percent} {loss} {label-col} {feat-cols}"
+  example:
+    parameters:
+      n-trees: int
+      m-depth: int
+      learning-rate: float
+      test-percent: float
+      loss: str
+      label-col: str
+      feat-cols: str
+    command: "python example_gbt.py {n-trees} {m-depth} {learning-rate} {test-percent} {loss} {label-col} {feat-cols}"
