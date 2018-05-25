@@ -1,29 +1,26 @@
-from mlflow import log_metric, log_parameter, log_output_files
 import argparse
+import os
 import pandas
+import sys
+import time
+import xgboost as xgb
+
+from pathlib import Path
+
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
 from pyspark.sql.types import *
-import os
-import sys
-from pathlib import Path
+
 from sklearn import *
 from sklearn.cross_validation import train_test_split
 from sklearn.preprocessing import normalize
 from sklearn.ensemble import *
 from sklearn.metrics import *
-import xgboost as xgb
-import time
+
 from mlflow import log_metric, log_parameter, log_output_files, active_run_id
 from mlflow.sklearn import log_model, save_model
-#install pyarrow and pyspark and xgboost
 
-def isfloat(value):
-  try:
-    float(value)
-    return True
-  except ValueError:
-    return False
+
 '''
 Let’s start with an app to simplify training a Gradient Boosted Tree (GBT) classifier on a dataset. 
 GBTs are an ensemble model frequently used to win ML competitions on Kaggle & popular for 
@@ -54,8 +51,17 @@ Specifically, you’ll need to write logic to:
 It’d be great to note any challenges / usability quirks you hit when using MLflow - 
 we can use the feedback to refine the MLflow APIs.
 '''
+
 # An example local call: python example/experiments/gbt.py diamonds 100 10 .2 .3 rmse price "carat,cut,color,clarity,depth,table,x,y,z"
-# An example mlflow call: mlflow run gbt-regression -P data_path="diamonds" -P n_trees=10 -P m_depth=10 -P learning_rate=.2 -P test_percent=.3 -P loss="rmse" -P label_col="price" -P feat_cols="carat","cut","color","clarity","depth","table","x","y","z"
+# An example mlflow call: mlflow run gbt-regression -P data_path="diamonds" -P n_trees=100 -P m_depth=10 -P learning_rate=.2 -P test_percent=.3 -P loss="rmse" -P label_col="price" -P feat_cols="carat","cut","color","clarity","depth","table","x","y","z"
+
+def isfloat(value):
+	try:
+		float(value)
+		return True
+	except ValueError:
+		return False
+
 # Parsing arguments.
 parser = argparse.ArgumentParser()
 parser.add_argument("data_path", help="Path to parquet dataset file. Input 'diamonds' to use the sample dataset.",
@@ -75,6 +81,7 @@ parser.add_argument("label_col", help="Name of label column.",
                     type=str)
 parser.add_argument("feat_cols", help="List of feature column names. Input must be a single string with columns delimited by commas.",
                     type=lambda s: [str(i) for i in s.split(',')])
+
 args = parser.parse_args()
 
 print("data_path:    ", args.data_path)
@@ -130,6 +137,7 @@ else:
 labels = pandasData[args.label_col].values
 featureNames = args.feat_cols
 features = pandasData[featureNames].values
+
 # Normalize features (columns) to have unit variance
 features = normalize(features, axis=0)
 
