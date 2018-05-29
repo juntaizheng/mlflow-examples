@@ -1,4 +1,6 @@
 import pandas
+from pandas.api.types import is_string_dtype
+
 import xgboost as xgb
 
 from mlflow import log_metric, log_parameter, log_output_files, active_run_id
@@ -6,19 +8,44 @@ from mlflow.sklearn import log_model, save_model
 
 from sklearn import *
 from sklearn.cross_validation import train_test_split
-from sklearn.preprocessing import normalize
+from sklearn.preprocessing import normalize, LabelEncoder
 from sklearn.ensemble import *
 from sklearn.metrics import *
 
 from time import time
 
+# Checks if the input string value is a float or int.
+def intOrFloat(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        try:
+        	float(s)
+        	return True
+        except ValueError:
+        	return False
 
 def train(args, pandasData):
 
+	# TODO: Implement automatic feature transformation
+	# print(pandasData[args.feat_cols].values)
+	# # Feature transformation: use sklearn's LabelEncoder to convert any string columns into numerical values for xgboost.
+	# le = LabelEncoder()
+	# if is_string_dtype(pandasData[args.label_col]):
+	# 	le.fit(pandasData[args.label_col])
+	# 	pandasData[args.label_col] = le.transform(pandasData[args.label_col])
+
+	# for f in args.feat_cols:
+	# 	if is_string_dtype(pandasData[f]) and not intOrFloat(pandasData[f][0]):
+	# 		print(f)
+	# 		le.fit(pandasData[f])
+	# 		print(list(le.classes_))
+	# 		pandasData[f] = le.transform(pandasData[f])
+
 	# Split data into a labels dataframe and a features dataframe
 	labels = pandasData[args.label_col].values
-	featureNames = args.feat_cols
-	features = pandasData[featureNames].values
+	features = pandasData[args.feat_cols].values
 
 	# Hold out test_percent of the data for testing.  We will use the rest for training.
 	trainingFeatures, testFeatures, trainingLabels, testLabels = train_test_split(features, labels, test_size=args.test_percent)
