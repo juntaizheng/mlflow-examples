@@ -19,5 +19,3 @@ where insert/data/path/ is replaced with the actual path to the parquet data, in
 To run an example of the app on the diamonds dataset](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv), run the code ```mlflow run mlflow-examples -e gbt-regression-example -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"```
 
 To add custom parameters to the app, simply add `-P name-of-argument=value.of.argument` to the command. An example of adding custom parameters on the diamonds dataset is as follows: ```mlflow run mlflow-examples -e gbt-regression-example -P n-trees=50 -P m-depth=20 -P learning-rate=.4 -P test-percent=.1 -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"```
-
-
