@@ -19,7 +19,7 @@ mlflow run mlflow-examples -e gbt-regression-main -P data-path="insert/data/path
 ```
 where `insert/data/path/` is replaced with the actual path to the parquet data, `insert.label.col` is replaced with the label column, and `insert,feat,cols` is replaced with a comma deliminated string of feature column names.
 
-To run an example of the app on the diamonds dataset](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv), run the code 
+To run an example of the app on the [diamonds dataset](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv), run the code 
 ```
 mlflow run mlflow-examples -e gbt-regression-example -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
 ```
