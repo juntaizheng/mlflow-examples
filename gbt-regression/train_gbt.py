@@ -69,3 +69,4 @@ def train(args, pandasData):
 	#Determining how long the program took.
 	print("This model took", timed, "seconds to train and test.")
 	log_metric("Time to run", timed)
+	
