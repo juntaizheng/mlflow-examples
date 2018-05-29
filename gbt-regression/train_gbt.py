@@ -34,10 +34,13 @@ def train(args, pandasData):
 
 	# Calculating the score of the model.
 	r2_score_training = xgbr.score(trainingFeatures, trainingLabels)
-	r2_score_test = xgbr.score(testFeatures, testLabels)
+	r2_score_test = 0
+	if args.test_percent != 0:
+		r2_score_test = xgbr.score(testFeatures, testLabels)
 	timed = time() - start_time
 	print("Training set score:", r2_score_training)
-	print("Test set score:", r2_score_test)
+	if args.test_percent != 0:
+		print("Test set score:", r2_score_test)
 
 	#Logging the parameters for viewing later. Can be found in the folder mlruns/.
 	if len(vars(args)) > 7:
@@ -53,7 +56,8 @@ def train(args, pandasData):
 
 	#Logging the r2 score for both sets.
 	log_metric("R2 score for training set", r2_score_training)
-	log_metric("R2 score for test set", r2_score_test)
+	if args.test_percent != 0:
+		log_metric("R2 score for test set", r2_score_test)
 
 	log_output_files("outputs")
 
