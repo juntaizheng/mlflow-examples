@@ -51,6 +51,10 @@ for i in args.feat_cols:
 	print("feat-cols      " + i)
 
 # Conversion of CSV to Parquet. Only needed for testing the diamonds dataset.
+<<<<<<< HEAD
+=======
+# See http://blogs.quovantis.com/how-to-convert-csv-to-parquet-files/
+>>>>>>> upstream/master
 
 # Creating a temporary directory for the storage of the csv and parquet file. Will be deleted at the end of the script.
 temp_folder_path = mkdtemp()
@@ -72,7 +76,10 @@ parquet_path = os.path.join(temp_folder_path, "diamonds_parquet")
 # Conversion of Parquet to pandas. See https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_parquet.html
 pandasData = pandas.read_parquet(parquet_path)
 
+<<<<<<< HEAD
 # TODO: Implement feature transformation
+=======
+>>>>>>> upstream/master
 # Conversion of qualitative values to quantitative values. For diamonds only.
 pandasData['cut'] = pandasData['cut'].replace({'Fair':0, 'Good':1, 'Very Good':2, 'Premium':3, 'Ideal':4})
 pandasData['color'] = pandasData['color'].replace({'J':0, 'I':1, 'H':2, 'G':3, 'F':4, 'E':5, 'D':6})

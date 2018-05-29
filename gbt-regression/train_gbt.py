@@ -1,6 +1,9 @@
 import pandas
+<<<<<<< HEAD
 from pandas.api.types import is_string_dtype
 
+=======
+>>>>>>> upstream/master
 import xgboost as xgb
 
 from mlflow import log_metric, log_parameter, log_output_files, active_run_id
@@ -8,7 +11,11 @@ from mlflow.sklearn import log_model, save_model
 
 from sklearn import *
 from sklearn.cross_validation import train_test_split
+<<<<<<< HEAD
 from sklearn.preprocessing import normalize, LabelEncoder
+=======
+from sklearn.preprocessing import normalize
+>>>>>>> upstream/master
 from sklearn.ensemble import *
 from sklearn.metrics import *
 
