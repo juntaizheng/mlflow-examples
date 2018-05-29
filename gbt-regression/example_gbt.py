@@ -63,7 +63,7 @@ sc = SparkContext(appName="CSV2Parquet")
 sqlContext = SQLContext(sc)
 
 #Downloading csv file from ggplot2's hosted dataset on github.
-url = "https://raw.githubusercontent.com/tidyverse/ggplot2/master/data-raw/diamonds.csv"
+url = "https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv"
 print("Downloading diamonds csv file...")
 urllib.request.urlretrieve(url, os.path.join(temp_folder_path, "diamonds.csv"))
 df = sqlContext.read.format("csv").option("header", "true").load(os.path.join(temp_folder_path, "diamonds.csv"))
