@@ -58,7 +58,7 @@ where `insert/data/path/` is replaced with the actual path to the parquet data, 
 
 To run an example of the app on the [diamonds dataset](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv), run the code 
 ```
-mlflow run . -e linear-regression-example
+mlflow run . -e linear-regression-example -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
 ```
 
 To pass parameter values to the app, simply add `-P name-of-argument=value.of.argument` to the command. An example of adding custom parameters on the diamonds dataset is as follows: 
@@ -68,5 +68,5 @@ mlflow run . -e linear-regression-example -P alpha=.5 -P l1-ratio=.2 -P test-per
 
 To run an app from a different directory, replace the "." with the path to the root repository folder. For example, the command to run the app on the diamonds dataset from the parent directory of `mlflow-examples` is:
 ```
-mlflow run mlflow-examples -e linear-regression-example 
+mlflow run mlflow-examples -e linear-regression-example -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
 ```

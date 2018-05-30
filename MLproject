@@ -36,6 +36,6 @@ entry_points:
       alpha: {type: float, default: .001}
       l1-ratio: {type: float, default: .5}
       test-percent: {type: float, default: .3}
-      label-col: {type: str, default: "price"}
-      feat-cols: {type: str, default: "carat,cut,color,clarity,depth,table,x,y,z"}
+      label-col: str
+      feat-cols: str
     command: "python linear-regression/example_linear.py {alpha} {l1-ratio} {test-percent} {label-col} {feat-cols}"
