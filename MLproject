@@ -25,7 +25,7 @@ entry_points:
   linear-regression-main:
     parameters:
       data-path: str
-      alpha: {type: float, default: 1.0}
+      alpha: {type: float, default: .001}
       l1-ratio: {type: float, default: .5}
       test-percent: {type: float, default: .3}
       label-col: str
@@ -33,7 +33,7 @@ entry_points:
     command: "python linear-regression/main_linear.py {data-path} {alpha} {l1-ratio} {test-percent} {label-col} {feat-cols}"
   linear-regression-example:
     parameters:
-      alpha: {type: float, default: 1.0}
+      alpha: {type: float, default: .001}
       l1-ratio: {type: float, default: .5}
       test-percent: {type: float, default: .3}
       label-col: {type: str, default: "price"}

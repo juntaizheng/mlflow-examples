@@ -40,7 +40,7 @@ mlflow run mlflow-examples -e gbt-regression-example
 
 This app creates and fits a Gradient Boosted Tree model based on parquet-formatted input data. The arguments to the program are as follows:
 * `data-path`: local or absolute path to the parquet file to be fitted on; `string` input
-* `alpha`: alpha for the regressor; default `1.0`
+* `alpha`: alpha for the regressor; default `.001`
 * `l1-ratio`: l1 ratio to be used for the regressor; default `.5`
 * `test-percent`: percentage of the input data that is held as the testing set; ranges from `0.0-1.0`; default `.3`
 * `label-col`: name of label column in dataset; `string` input
