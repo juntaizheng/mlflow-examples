@@ -1,14 +1,8 @@
-import pandas
-
-from mlflow import log_metric, log_parameter, log_output_files, active_run_id
-from mlflow.sklearn import log_model, save_model
-
+from time import time
 from sklearn.linear_model import ElasticNet
 from sklearn.cross_validation import train_test_split
-from sklearn.ensemble import *
-from sklearn.metrics import *
-
-from time import time
+from mlflow import log_metric, log_parameter, log_output_files, active_run_id
+from mlflow.sklearn import log_model
 
 def train(args, pandasData):
 
@@ -17,12 +11,13 @@ def train(args, pandasData):
 	features = pandasData[args.feat_cols].values
 
 	# Hold out test_percent of the data for testing.  We will use the rest for training.
-	trainingFeatures, testFeatures, trainingLabels, testLabels = train_test_split(features, labels, test_size=args.test_percent)
+	trainingFeatures, testFeatures, trainingLabels, testLabels = train_test_split(features, labels, 
+																					test_size=args.test_percent)
 	ntrain, ntest = len(trainingLabels), len(testLabels)
 	print("Split data randomly into 2 sets: {} training and {} test instances.".format(ntrain, ntest))
 
 	#We will use a linear Elastic Net model.
-	en = ElasticNet(alpha = args.alpha, l1_ratio = args.l1_ratio)
+	en = ElasticNet(alpha=args.alpha, l1_ratio=args.l1_ratio)
 
 	# Here we train the model and keep track of how long it takes.
 	start_time = time()
