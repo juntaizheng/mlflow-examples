@@ -1,9 +1,4 @@
 import pandas
-<<<<<<< HEAD
-from pandas.api.types import is_string_dtype
-
-=======
->>>>>>> upstream/master
 import xgboost as xgb
 
 from mlflow import log_metric, log_parameter, log_output_files, active_run_id
@@ -11,44 +6,13 @@ from mlflow.sklearn import log_model, save_model
 
 from sklearn import *
 from sklearn.cross_validation import train_test_split
-<<<<<<< HEAD
-from sklearn.preprocessing import normalize, LabelEncoder
-=======
 from sklearn.preprocessing import normalize
->>>>>>> upstream/master
 from sklearn.ensemble import *
 from sklearn.metrics import *
 
 from time import time
 
-# Checks if the input string value is a float or int.
-def intOrFloat(s):
-    try: 
-        int(s)
-        return True
-    except ValueError:
-        try:
-        	float(s)
-        	return True
-        except ValueError:
-        	return False
-
 def train(args, pandasData):
-
-	# TODO: Implement automatic feature transformation
-	# print(pandasData[args.feat_cols].values)
-	# # Feature transformation: use sklearn's LabelEncoder to convert any string columns into numerical values for xgboost.
-	# le = LabelEncoder()
-	# if is_string_dtype(pandasData[args.label_col]):
-	# 	le.fit(pandasData[args.label_col])
-	# 	pandasData[args.label_col] = le.transform(pandasData[args.label_col])
-
-	# for f in args.feat_cols:
-	# 	if is_string_dtype(pandasData[f]) and not intOrFloat(pandasData[f][0]):
-	# 		print(f)
-	# 		le.fit(pandasData[f])
-	# 		print(list(le.classes_))
-	# 		pandasData[f] = le.transform(pandasData[f])
 
 	# Split data into a labels dataframe and a features dataframe
 	labels = pandasData[args.label_col].values
