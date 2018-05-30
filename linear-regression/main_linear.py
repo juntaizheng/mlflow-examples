@@ -38,4 +38,4 @@ for i in args.feat_cols:
 pandasData = pandas.read_parquet(args.data_path)
 
 # Train the model based on the parameters provided.
-train_gbt.train(args, pandasData)
+train_linear.train(args, pandasData)

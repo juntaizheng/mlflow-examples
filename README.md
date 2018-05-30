@@ -11,6 +11,8 @@ This app creates and fits a Gradient Boosted Tree model based on parquet-formatt
 * `label-col`: name of label column in dataset; `string` input
 * `feat-cols`: names of columns in dataset to be used as features; input is one `string` with names delimited by commas
 
+This app currently assumes that the input data is all numerical.
+
 The following commands should be run in the parent directory of the `mlflow-examples` folder.
 
 To run the app with default parameters on a dataset, run the code 

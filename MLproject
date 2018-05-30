@@ -22,6 +22,15 @@ entry_points:
       label-col: {type: str, default: "price"}
       feat-cols: {type: str, default: "carat,cut,color,clarity,depth,table,x,y,z"}
     command: "python gbt-regression/example_gbt.py {n-trees} {m-depth} {learning-rate} {test-percent} {loss} {label-col} {feat-cols}"
+  linear-regression-main:
+    parameters:
+      data-path: str
+      alpha: {type: float, default: 1.0}
+      l1-ratio: {type: float, default: .5}
+      test-percent: {type: float, default: .3}
+      label-col: str
+      feat-cols: str
+    command: "python linear-regression/main_linear.py {data-path} {alpha} {l1-ratio} {test-percent} {label-col} {feat-cols}"
   linear-regression-example:
     parameters:
       alpha: {type: float, default: 1.0}
