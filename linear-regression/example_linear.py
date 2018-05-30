@@ -11,6 +11,11 @@ from pyspark import SparkContext, SparkFiles
 from pyspark.sql import SQLContext
 from pyspark.sql.types import *
 
+"""
+Trains a single-machine scikit-learn Elastic Net model on the provided data file, producing a pickled model file. 
+Uses MLflow tracking APIs to log the input parameters, the model file, and the model's training loss.
+"""
+
 #Parsing arguments.
 parser = argparse.ArgumentParser()
 
@@ -58,7 +63,6 @@ parquet_path = os.path.join(temp_folder_path, "diamonds_parquet")
 # Conversion of Parquet to pandas. See https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_parquet.html
 pandasData = pandas.read_parquet(parquet_path)
 
-# TODO: Implement feature transformation via one hot encoding
 # Conversion of qualitative values to quantitative values. For diamonds only.
 pandasData['cut'] = pandasData['cut'].replace({'Fair':0, 'Good':1, 'Very Good':2, 'Premium':3, 'Ideal':4})
 pandasData['color'] = pandasData['color'].replace({'J':0, 'I':1, 'H':2, 'G':3, 'F':4, 'E':5, 'D':6})
