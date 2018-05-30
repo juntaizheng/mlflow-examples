@@ -3,7 +3,7 @@ import pandas
 from mlflow import log_metric, log_parameter, log_output_files, active_run_id
 from mlflow.sklearn import log_model, save_model
 
-from sklearn import *
+from sklearn.linear_model import ElasticNet
 from sklearn.cross_validation import train_test_split
 from sklearn.ensemble import *
 from sklearn.metrics import *
@@ -22,7 +22,7 @@ def train(args, pandasData):
 	print("Split data randomly into 2 sets: {} training and {} test instances.".format(ntrain, ntest))
 
 	#We will use a linear Elastic Net model.
-	en = sklearn.linear_model.ElasticNet(alpha = args.alpha, l1_ratio = args.l1_ratio)
+	en = ElasticNet(alpha = args.alpha, l1_ratio = args.l1_ratio)
 
 	# Here we train the model and keep track of how long it takes.
 	start_time = time()
@@ -32,7 +32,7 @@ def train(args, pandasData):
 	r2_score_training = en.score(trainingFeatures, trainingLabels)
 	r2_score_test = 0
 	if args.test_percent != 0:
-		r2_score_test = xgbr.score(testFeatures, testLabels)
+		r2_score_test = en.score(testFeatures, testLabels)
 	timed = time() - start_time
 	print("Training set score:", r2_score_training)
 	if args.test_percent != 0:
