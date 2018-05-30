@@ -28,8 +28,9 @@ def download_diamonds(temp_folder_path):
 	# Conversion of qualitative values to quantitative values. For diamonds only.
 	pandasData['cut'] = pandasData['cut'].replace({'Fair':0, 'Good':1, 
 	                                                'Very Good':2, 'Premium':3, 'Ideal':4})
-	pandasData['color'] = pandasData['color'].replace({'J':0, 'I':1, 'H':2, 'G':3, 'F':4, 'E':5, 'D':6})
-	pandasData['clarity'] = pandasData['clarity'].replace({'I1':0, 'SI1':1, 'SI2':2, 
-	                                                        'VS1':3, 'VS2':4, 'VVS1':5, 'VVS2':6, 'IF':7})
+	pandasData['color'] = pandasData['color'].replace({'J':0, 'I':1, 
+														'H':2, 'G':3, 'F':4, 'E':5, 'D':6})
+	pandasData['clarity'] = pandasData['clarity'].replace({'I1':0, 
+							'SI1':1, 'SI2':2, 'VS1':3, 'VS2':4, 'VVS1':5, 'VVS2':6, 'IF':7})
 
 	return pandasData

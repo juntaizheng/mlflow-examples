@@ -11,10 +11,10 @@ def train(args, pandasData):
     features = pandasData[args.feat_cols].values
 
     # Hold out test_percent of the data for testing.  We will use the rest for training.
-    trainingFeatures, testFeatures, trainingLabels, testLabels = train_test_split(features, labels, 
-                                                                                    test_size=args.test_percent)
+    trainingFeatures, testFeatures, trainingLabels, testLabels = train_test_split(features, 
+                                                                labels, test_size=args.test_percent)
     ntrain, ntest = len(trainingLabels), len(testLabels)
-    print("Split data randomly into 2 sets: {} training and {} test instances.".format(ntrain, ntest))
+    print("Split data randomly into {} training and {} test instances.".format(ntrain, ntest))
 
     #We will use a linear Elastic Net model.
     en = ElasticNet(alpha=args.alpha, l1_ratio=args.l1_ratio)

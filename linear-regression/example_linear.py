@@ -1,11 +1,6 @@
 import argparse
-import os
-import urllib.request
 from shutil import rmtree
 from tempfile import mkdtemp
-import pandas
-from pyspark import SparkContext
-from pyspark.sql import SQLContext
 import train_linear
 import utils
 

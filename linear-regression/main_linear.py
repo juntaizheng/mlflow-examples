@@ -21,7 +21,7 @@ parser.add_argument("test_percent", help="Percent of data to use as test data.",
 parser.add_argument("label_col", help="Name of label column.",
                     type=str)
 parser.add_argument("feat_cols", help="""List of feature column names. 
-                                    Input must be a single string with columns delimited by commas.""",
+                                Input must be a single string with columns delimited by commas.""",
                     type=lambda s: [str(i) for i in s.split(',')])
 
 args = parser.parse_args()
