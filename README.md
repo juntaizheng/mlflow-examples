@@ -45,7 +45,7 @@ This app creates and fits a Gradient Boosted Tree model based on parquet-formatt
 * `test-percent`: percentage of the input data that is held as the testing set; ranges from `0.0-1.0`; default `.3`
 * `label-col`: name of label column in dataset; `string` input
 * `feat-cols`: names of columns in dataset to be used as features; input is one `string` with names delimited by commas
-    * This argument is optional. If no argument is provided, it is assumed that all columns but the label are feature columns.
+    * This argument is optional. If no argument is provided, it is assumed that all columns but the label column are feature columns.
 
 This app currently assumes that the input data is all numerical.
 
