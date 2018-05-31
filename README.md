@@ -23,7 +23,7 @@ where `insert/data/path/` is replaced with the actual path to the parquet data, 
 
 To run an example of the app on the [diamonds dataset](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv), run the code 
 ```
-mlflow run . -e gbt-regression-example
+mlflow run . -e gbt-regression-example -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
 ```
 
 To pass parameter values to the app, simply add `-P name-of-argument=value.of.argument` to the command. An example of adding custom parameters on the diamonds dataset is as follows: 
@@ -33,7 +33,7 @@ mlflow run . -e gbt-regression-example -P n-trees=50 -P m-depth=20 -P learning-r
 
 To run an app from a different directory, replace the "." with the path to the root repository folder. For example, the command to run the app on the diamonds dataset from the parent directory of `mlflow-examples` is:
 ```
-mlflow run mlflow-examples -e gbt-regression-example 
+mlflow run mlflow-examples -e gbt-regression-example -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
 ```
 
 ### linear-regression
@@ -53,9 +53,9 @@ The following commands should be run from the root repository directory:
 
 To run the app with default parameters on a dataset, run the code 
 ```
-mlflow run . -e linear-regression-main -P data-path="insert/data/path/" -P label-col="insert.label.col" -P feat-cols="insert,feat,cols"
+mlflow run . -e linear-regression-main -P data-path="insert/data/path/" -P label-col="insert.label.col"
 ```
-where `insert/data/path/` is replaced with the actual path to the parquet data, `insert.label.col` is replaced with the label column, and `insert,feat,cols` is replaced with a comma delimited string of feature column names.
+where `insert/data/path/` is replaced with the actual path to the parquet data, `insert.label.col` is replaced with the label column.
 
 To run an example of the app on the [diamonds dataset](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv), run the code 
 ```

@@ -13,16 +13,16 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("alpha", help="Alpha value for Elastic Net linear regressor.",
                     type=float)
-parser.add_argument("l1_ratio", help="""L1 ratio for Elastic Net linear regressor. 
-                        See http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html
-                        for more details.""",
+parser.add_argument("l1_ratio", help="L1 ratio for Elastic Net linear regressor. "
+    "See http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html "
+    "for more details.",
                     type=float)
 parser.add_argument("test_percent", help="Percent of data to use as test data.",
                     type=float)
 parser.add_argument("label_col", help="Name of label column.",
                     type=str)
-parser.add_argument("--feat-cols", help="""List of feature column names. 
-                        Input must be a single string with columns delimited by commas.""",
+parser.add_argument("--feat-cols", help="List of feature column names. "
+                        "Input must be a single string with columns delimited by commas.",
                     type=lambda s: [str(i) for i in s.split(',')])
 
 args = parser.parse_args()
@@ -33,11 +33,13 @@ temp_folder_path = mkdtemp()
 
 pandasData = utils.download_diamonds(temp_folder_path)
 
-args = utils.linear_arg_handler(args, pandasData)
+feat_cols = utils.get_feature_cols(args.feat_cols, args.label_col, list(pandasData))
 
 # Train the model based on the parameters provided.
-train_linear.train(pandasData, args.label_col, args.feat_cols, 
-                    args.test_percent, args.alpha, args.l1_ratio, None)
+try:
+    train_linear.train(pandasData, args.label_col, feat_cols, 
+                        args.test_percent, args.alpha, args.l1_ratio, None)
 
 # Delete the temporary folder that stores the csv and parquet files.
-rmtree(temp_folder_path)
+finally:
+    rmtree(temp_folder_path)

@@ -5,6 +5,14 @@ from mlflow import log_metric, log_parameter, log_output_files, active_run_id
 from mlflow.sklearn import log_model
 
 def train(pandasData, label_col, feat_cols, test_percent, alpha, l1_ratio, data_path):
+    if data_path:
+        print("data-path:    ", data_path)
+    print("alpha:        ", alpha)
+    print("l1-ratio:     ", l1_ratio)
+    print("test-percent: ", test_percent)
+    print("label-col:     " + label_col)
+    for col in feat_cols:
+        print("feat-cols:     " + col)
 
     # Split data into a labels dataframe and a features dataframe
     labels = pandasData[label_col].values
