@@ -47,13 +47,13 @@ def linear_arg_handler(args, pandasData):
 	# This is the case if the user specified which columns are to be feature columns.
 	if args.feat_cols:
 	    for col in args.feat_cols:
-	        print("feat-cols      " + col)
+	        print("feat-cols:     " + col)
 	# If no feature columns are specified, it is assumed all columns but the label are features.
 	else:
 	    print("No feature columns input. Assuming all columns but label column are features.")
 	    args.feat_cols = []
 	    for col in list(pandasData):
 	        if not col == args.label_col:
-	            print("feat-cols      " + col)
+	            print("feat-cols:     " + col)
 	            args.feat_cols.append(col)
 	return args
