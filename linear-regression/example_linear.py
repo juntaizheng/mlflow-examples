@@ -36,7 +36,8 @@ pandasData = utils.download_diamonds(temp_folder_path)
 args = utils.linear_arg_handler(args, pandasData)
 
 # Train the model based on the parameters provided.
-train_linear.train(args, pandasData)
+train_linear.train(pandasData, args.label_col, args.feat_cols, 
+                    args.test_percent, args.alpha, args.l1_ratio, None)
 
 # Delete the temporary folder that stores the csv and parquet files.
 rmtree(temp_folder_path)

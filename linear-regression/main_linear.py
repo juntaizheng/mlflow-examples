@@ -33,4 +33,5 @@ pandasData = pandas.read_parquet(args.data_path)
 args = utils.linear_arg_handler(args, pandasData)
 
 # Train the model based on the parameters provided.
-train_linear.train(args, pandasData)
+train_linear.train(pandasData, args.label_col, args.feat_cols, 
+                    args.test_percent, args.alpha, args.l1_ratio, args.data_path)
