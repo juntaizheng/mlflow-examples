@@ -2,7 +2,7 @@ import pandas
 import tensorflow as tf
 from tensorflow.estimator.inputs import numpy_input_fn
 
-def train(args, pandasData):
+def train(pandasData, label_col, feat_cols, test_percent, alpha, l1_ratio, data_path):
 
 	# Split data into a labels dataframe and a features dataframe
 	labels = pandasData[args.label_col].values
