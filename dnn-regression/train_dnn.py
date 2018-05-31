@@ -23,4 +23,5 @@ def train(pandasData, label_col, feat_cols, test_percent, alpha, l1_ratio, data_
 	for col in args.feat_cols:
 		tf_feat_cols.append(tf.feature_column.numeric_column(key=col))
 	
+	
 
