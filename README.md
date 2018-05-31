@@ -45,6 +45,7 @@ This app creates and fits a Gradient Boosted Tree model based on parquet-formatt
 * `test-percent`: percentage of the input data that is held as the testing set; ranges from `0.0-1.0`; default `.3`
 * `label-col`: name of label column in dataset; `string` input
 * `feat-cols`: names of columns in dataset to be used as features; input is one `string` with names delimited by commas
+    * This argument is optional. If no argument is provided, it is assumed that all columns but the label are feature columns.
 
 This app currently assumes that the input data is all numerical.
 
@@ -58,15 +59,15 @@ where `insert/data/path/` is replaced with the actual path to the parquet data, 
 
 To run an example of the app on the [diamonds dataset](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv), run the code 
 ```
-mlflow run . -e linear-regression-example -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
+mlflow run . -e linear-regression-example -P label-col="price"
 ```
 
-To pass parameter values to the app, simply add `-P name-of-argument=value.of.argument` to the command. An example of adding custom parameters on the diamonds dataset is as follows: 
+To pass parameter values to the app, simply add `-P name-of-argument=value.of.argument` to the command. An example of passing custom parameters using the diamonds dataset is as follows: 
 ```
-mlflow run . -e linear-regression-example -P alpha=.5 -P l1-ratio=.2 -P test-percent=.1 -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
+mlflow run . -e linear-regression-example -P alpha=.01 -P l1-ratio=.2 -P test-percent=.1 -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
 ```
 
 To run an app from a different directory, replace the "." with the path to the root repository folder. For example, the command to run the app on the diamonds dataset from the parent directory of `mlflow-examples` is:
 ```
-mlflow run mlflow-examples -e linear-regression-example -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
+mlflow run mlflow-examples -e linear-regression-example -P label-col="price" 
 ```

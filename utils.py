@@ -4,6 +4,7 @@ import pandas
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
 
+# Downloads the diamonds dataset into the provided folder path.
 def download_diamonds(temp_folder_path):
 	sc = SparkContext(appName="CSV2Parquet")
 	sqlContext = SQLContext(sc)
@@ -34,3 +35,25 @@ def download_diamonds(temp_folder_path):
 							'SI1':1, 'SI2':2, 'VS1':3, 'VS2':4, 'VVS1':5, 'VVS2':6, 'IF':7})
 
 	return pandasData
+
+def linear_arg_handler(args, pandasData):
+	if len(vars(args)) > 5 or (len(vars(args)) == 4 and not args.feat_cols):
+		print("data-path:    ", args.data_path)
+	print("alpha:        ", args.alpha)
+	print("l1-ratio:     ", args.l1_ratio)
+	print("test-percent: ", args.test_percent)
+	print("label-col:     " + args.label_col)
+
+	# This is the case if the user specified which columns are to be feature columns.
+	if args.feat_cols:
+	    for col in args.feat_cols:
+	        print("feat-cols      " + col)
+	# If no feature columns are specified, it is assumed all columns but the label are features.
+	else:
+	    print("No feature columns input. Assuming all columns but label column are features.")
+	    args.feat_cols = []
+	    for col in list(pandasData):
+	        if not col == args.label_col:
+	            print("feat-cols      " + col)
+	            args.feat_cols.append(col)
+	return args

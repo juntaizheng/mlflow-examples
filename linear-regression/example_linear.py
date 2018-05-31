@@ -21,26 +21,20 @@ parser.add_argument("test_percent", help="Percent of data to use as test data.",
                     type=float)
 parser.add_argument("label_col", help="Name of label column.",
                     type=str)
-parser.add_argument("feat_cols", help="""List of feature column names. 
+parser.add_argument("--feat-cols", help="""List of feature column names. 
                         Input must be a single string with columns delimited by commas.""",
                     type=lambda s: [str(i) for i in s.split(',')])
 
 args = parser.parse_args()
-
-print("alpha:        ", args.alpha)
-print("l1-ratio:     ", args.l1_ratio)
-print("test-percent: ", args.test_percent)
-print("label-col:     " + args.label_col)
-for i in args.feat_cols:
-    print("feat-cols      " + i)
-
-# Conversion of CSV to Parquet. Only needed for testing the diamonds dataset.
 
 # Creating a temporary directory for the storage of the csv and parquet file. 
 # Will be deleted at the end of the script.
 temp_folder_path = mkdtemp()
 
 pandasData = utils.download_diamonds(temp_folder_path)
+
+args = utils.linear_arg_handler(args, pandasData)
+
 # Train the model based on the parameters provided.
 train_linear.train(args, pandasData)
 
