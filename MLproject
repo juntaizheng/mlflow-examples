@@ -42,7 +42,7 @@ entry_points:
       training-data-path: str
       test-data-path: str
       hidden-units: str
-      steps: {type: int, default: 10}
+      steps: {type: int, default: 100}
       batch-size: {type: int, default: 128}
       label-col: str
     command: "python dnn-regression/main_dnn.py {training-data-path} {test-data-path} {hidden-units} {steps} {batch-size} {label-col}"

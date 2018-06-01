@@ -71,3 +71,25 @@ To run an app from a different directory, replace the "." with the path to the r
 ```
 mlflow run mlflow-examples -e linear-regression-example -P label-col="price" 
 ```
+
+### deep neural network regression
+
+This app creates and fits a Tensorflow DNNRegressor model based on parquet-formatted input data. The arguments to the program are as follows:
+* `training-data-path`: local or absolute path to the parquet file to be fitted on; `string` input
+* `test-data-path`: local or absolute path to the parquet file to be tested on; `string` input
+* `hidden-units`: size and number of layers for the dnn; `string` input with layers delimited by commas (i.e. "10,10")
+* `steps`: steps to be run whil training the regressor; default `100`
+* `batch-size`: batch size used for creation of input functions for training and evaluation; default `128`
+* `label-col`: name of label column in dataset; `string` input
+* `feat-cols`: names of columns in dataset to be used as features; input is one `string` with names delimited by commas
+    * This argument is optional. If no argument is provided, it is assumed that all columns but the label column are feature columns.
+
+This app currently assumes that the input data is all numerical.
+
+The following commands should be run from the root repository directory:
+
+To run the app with default parameters on a dataset, run the code 
+```
+mlflow run . -e dnn-regression-main -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
+```
+where `insert/data/path/` is replaced with the actual path to the parquet data, `insert.label.col` is replaced with the label column.
