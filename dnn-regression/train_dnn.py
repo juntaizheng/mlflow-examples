@@ -5,7 +5,6 @@ from mlflow.sklearn import log_model
 
 #python dnn-regression/main_dnn.py "/Users/juntaizheng/mlflow-examples/airbnb_train.parquet" "10" 10 10 price
 
-
 def train(training_pandasData, test_pandasData, label_col, feat_cols, hidden_units, steps, batch_size, training_data_path, test_data_path):
 
     print("training-data-path:    " + training_data_path)
@@ -17,17 +16,17 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, hidden_uni
     print("label-col:             " + label_col)
     for feat in feat_cols:
         print("feat-cols:             " + feat)
-    #print('price' in training_pandasData.columns)
+
     # Split data into a labels dataframe and a features dataframe
     trainingLabels = training_pandasData[label_col].values
     testLabels = test_pandasData[label_col].values
+
     trainingFeatures = {}
     testFeatures = {}
     for feat in feat_cols:
         trainingFeatures[feat.replace(" ", "_")] = training_pandasData[feat].values
         testFeatures[feat.replace(" ", "_")] = test_pandasData[feat].values
-    #temp = training_pandasData.drop(label_col, axis=1)
-    #input_train = tf.estimator.inputs.pandas_input_fn(temp, training_pandasData[label_col], shuffle=False)
+
     # Create input functions for both the training and testing sets.
     with tf.Session() as session:
         input_train = tf.estimator.inputs.numpy_input_fn(trainingFeatures, trainingLabels, shuffle=True, batch_size=batch_size)
@@ -37,7 +36,7 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, hidden_uni
     tf_feat_cols = []
     for col in feat_cols:
         tf_feat_cols.append(tf.feature_column.numeric_column(col.replace(" ", "_")))
-    
+
     # Creating DNNRegressor
     regressor = tf.estimator.DNNRegressor(
         feature_columns=tf_feat_cols,
@@ -74,7 +73,7 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, hidden_uni
 
     log_output_files("outputs")
 
-    #Saving the model as an artifact.
-    #log_model(regressor, "model")
+    #TODO: Saving the model as an artifact.
+    #direct = regressor.export_savedmodel("../mlruns", tf.estimator.export.build_parsing_serving_input_receiver_fn(trainingFeatures))
 
-    #print("Model saved in mlruns/%s" % active_run_id())
+    #print("Model saved in mlruns/%s" % direct)

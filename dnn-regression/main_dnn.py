@@ -29,6 +29,7 @@ args = parser.parse_args()
 
 # Reading the parquet file into a pandas dataframe.
 training_pandasData = pandas.read_parquet(args.training_data_path)
+
 test_pandasData = pandas.read_parquet(args.test_data_path)
 
 # Handle determining feature columns.
