@@ -6,9 +6,10 @@ from mlflow.sklearn import log_model
 #python dnn-regression/main_dnn.py "/Users/juntaizheng/mlflow-examples/airbnb_train.parquet" "10" 10 10 price
 
 
-def train(training_pandasData, label_col, feat_cols, hidden_units, steps, batch_size, training_data_path):
+def train(training_pandasData, test_pandasData, label_col, feat_cols, hidden_units, steps, batch_size, training_data_path, test_data_path):
 
     print("training-data-path:    " + training_data_path)
+    print("test-data-path:        " + test_data_path)
     for hu in hidden_units:
         print("hidden-units:         ", hu)
     print("steps:                ", steps)
@@ -19,16 +20,18 @@ def train(training_pandasData, label_col, feat_cols, hidden_units, steps, batch_
     #print('price' in training_pandasData.columns)
     # Split data into a labels dataframe and a features dataframe
     trainingLabels = training_pandasData[label_col].values
-    print(trainingLabels)
+    testLabels = test_pandasData[label_col].values
     trainingFeatures = {}
+    testFeatures = {}
     for feat in feat_cols:
         trainingFeatures[feat.replace(" ", "_")] = training_pandasData[feat].values
+        testFeatures[feat.replace(" ", "_")] = test_pandasData[feat].values
     #temp = training_pandasData.drop(label_col, axis=1)
     #input_train = tf.estimator.inputs.pandas_input_fn(temp, training_pandasData[label_col], shuffle=False)
     # Create input functions for both the training and testing sets.
     with tf.Session() as session:
         input_train = tf.estimator.inputs.numpy_input_fn(trainingFeatures, trainingLabels, shuffle=True, batch_size=batch_size)
-        # input_test = numpy_input_fn(testFeatures, testLabels, shuffle=False)
+        input_test = tf.estimator.inputs.numpy_input_fn(testFeatures, testLabels, shuffle=False, batch_size=batch_size)
     
     # Create TensorFlow columns based on passed in feature columns
     tf_feat_cols = []
@@ -47,14 +50,17 @@ def train(training_pandasData, label_col, feat_cols, hidden_units, steps, batch_
 
     # Evaluating model on training data
     training_eval = regressor.evaluate(input_fn=input_train)
+    test_eval = regressor.evaluate(input_fn=input_test)
 
     training_rmse = training_eval["average_loss"]**0.5
-    p = regressor.predict(input_fn=input_train)
-    for prediction in p:
-        print(prediction)
-    print("Training RMSE:", training_rmse)
+    test_rmse = test_eval["average_loss"]**0.5
 
+    print("Training RMSE:", training_rmse)
+    print("Test RMSE:", test_rmse)
+
+    print("Logging parameters.")
     log_parameter("Training data path", training_data_path)
+    log_parameter("Test data path", test_data_path)
     log_parameter("Label column", label_col)
     log_parameter("Feature columns", feat_cols)
     log_parameter("Hidden units", hidden_units)
@@ -64,7 +70,7 @@ def train(training_pandasData, label_col, feat_cols, hidden_units, steps, batch_
 
     #Logging the rmse for both sets.
     log_metric("RMSE for training set", training_rmse)
-    #log_metric("R2 score for test set", r2_score_test)
+    log_metric("RMSE for test set", test_rmse)
 
     log_output_files("outputs")
 
