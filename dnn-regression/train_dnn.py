@@ -3,6 +3,9 @@ import tensorflow as tf
 from mlflow import log_metric, log_parameter, log_output_files, active_run_id
 from mlflow.sklearn import log_model
 
+#python dnn-regression/main_dnn.py "/Users/juntaizheng/mlflow-examples/airbnb_train.parquet" "10" 10 10 price
+
+
 def train(training_pandasData, label_col, feat_cols, hidden_units, steps, batch_size, training_data_path):
 
     print("training-data-path:    " + training_data_path)
