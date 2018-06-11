@@ -38,11 +38,11 @@ mlflow run mlflow-examples -e gbt-regression-example -P label-col="price" -P fea
 
 ### linear-regression
 
-This app creates and fits a Gradient Boosted Tree model based on parquet-formatted input data. The arguments to the program are as follows:
-* `data-path`: local or absolute path to the parquet file to be fitted on; `string` input
+This app creates and fits a [Elastic Net](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html) model based on parquet-formatted input data. The arguments to the program are as follows:
+* `training-data-path`: local or absolute path to the parquet file to be fitted on; `string` input
+* `test-data-path`: local or absolute path to the parquet file to be tested on; `string` input
 * `alpha`: alpha for the regressor; default `.001`
 * `l1-ratio`: l1 ratio to be used for the regressor; default `.5`
-* `test-percent`: percentage of the input data that is held as the testing set; ranges from `0.0-1.0`; default `.3`
 * `label-col`: name of label column in dataset; `string` input
 * `feat-cols`: names of columns in dataset to be used as features; input is one `string` with names delimited by commas
     * This argument is optional. If no argument is provided, it is assumed that all columns but the label column are feature columns.
@@ -53,21 +53,11 @@ The following commands should be run from the root repository directory:
 
 To run the app with default parameters on a dataset, run the code 
 ```
-mlflow run . -e linear-regression-main -P data-path="insert/data/path/" -P label-col="insert.label.col"
+mlflow run . -e linear-regression-main -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="insert.label.col"
 ```
 where `insert/data/path/` is replaced with the actual path to the parquet data, `insert.label.col` is replaced with the label column.
 
-To run an example of the app on the [diamonds dataset](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv), run the code 
+To run an app from a different directory, replace the "." with the path to the root repository folder. For example, the command to run the app from the parent directory of `mlflow-examples` is:
 ```
-mlflow run . -e linear-regression-example -P label-col="price"
-```
-
-To pass parameter values to the app, simply add `-P name-of-argument=value.of.argument` to the command. An example of passing custom parameters using the diamonds dataset is as follows: 
-```
-mlflow run . -e linear-regression-example -P alpha=.01 -P l1-ratio=.2 -P test-percent=.1 -P label-col="price" -P feat-cols="carat,cut,color,clarity,depth,table,x,y,z"
-```
-
-To run an app from a different directory, replace the "." with the path to the root repository folder. For example, the command to run the app on the diamonds dataset from the parent directory of `mlflow-examples` is:
-```
-mlflow run mlflow-examples -e linear-regression-example -P label-col="price" 
+mlflow run mlflow-examples -e linear-regression-example -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="price" 
 ```
