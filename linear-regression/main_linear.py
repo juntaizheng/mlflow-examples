@@ -2,7 +2,6 @@ import argparse
 import pandas
 import train_linear
 import utils
-
 # Trains a single-machine scikit-learn Elastic Net model on the provided data file, 
 # producing a pickled model file. Uses MLflow tracking APIs to log the input parameters, 
 # the model file, and the model's training loss.
@@ -31,7 +30,7 @@ args = parser.parse_args()
 training_pandas_data = pandas.read_parquet(args.training_data_path)
 test_pandas_data = pandas.read_parquet(args.test_data_path)
 
-feat_cols = utils.get_feature_cols(args.feat_cols, args.label_col, list(pandasData))
+feat_cols = utils.get_feature_cols(args.feat_cols, args.label_col, list(training_pandas_data))
 
 # Train the model based on the parameters provided.
 train_linear.train(training_pandas_data, test_pandas_data, args.label_col, feat_cols, 

@@ -1,7 +1,7 @@
 from time import time
 from sklearn.linear_model import ElasticNet
 from sklearn.cross_validation import train_test_split
-from mlflow import log_metric, log_parameter, log_output_files, active_run_id
+from mlflow import log_metric
 from mlflow.sklearn import log_model
 
 
@@ -31,24 +31,17 @@ def train(training_pandas_data, test_pandas_data, label_col, feat_cols, alpha, l
     # Calculating the score of the model.
     r2_score_training = en.score(trainingFeatures, trainingLabels)
     r2_score_test = 0
-    if test_percent != 0:
-        r2_score_test = en.score(testFeatures, testLabels)
+    r2_score_test = en.score(testFeatures, testLabels)
     timed = time() - start_time
     print("Training set score:", r2_score_training)
-    if test_percent != 0:
-        print("Test set score:", r2_score_test)
+    print("Test set score:", r2_score_test)
 
     #Logging the r2 score for both sets.
     log_metric("R2 score for training set", r2_score_training)
-    if test_percent != 0:
-        log_metric("R2 score for test set", r2_score_test)
-
-    log_output_files("outputs")
+    log_metric("R2 score for test set", r2_score_test)
 
     #Saving the model as an artifact.
     log_model(en, "model")
-
-    print("Model saved in mlruns/%s" % active_run_id())
 
     #Determining how long the program took.
     print("This model took", timed, "seconds to train and test.")
