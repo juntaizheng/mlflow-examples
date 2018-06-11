@@ -4,25 +4,22 @@ from sklearn.cross_validation import train_test_split
 from mlflow import log_metric, log_parameter, log_output_files, active_run_id
 from mlflow.sklearn import log_model
 
-def train(pandasData, label_col, feat_cols, test_percent, alpha, l1_ratio, data_path):
-    if data_path:
-        print("data-path:    ", data_path)
+
+def train(training_pandas_data, test_pandas_data, label_col, feat_cols, alpha, l1_ratio, training_data_path, test_data_path):
+
+    print("training-data-path:    " + training_data_path)
+    print("test-data-path:        " + test_data_path)
     print("alpha:        ", alpha)
     print("l1-ratio:     ", l1_ratio)
-    print("test-percent: ", test_percent)
     print("label-col:     " + label_col)
     for col in feat_cols:
         print("feat-cols:     " + col)
 
     # Split data into a labels dataframe and a features dataframe
-    labels = pandasData[label_col].values
-    features = pandasData[feat_cols].values
-
-    # Hold out test_percent of the data for testing.  We will use the rest for training.
-    trainingFeatures, testFeatures, trainingLabels, testLabels = train_test_split(features, 
-                                                                labels, test_size=test_percent)
-    ntrain, ntest = len(trainingLabels), len(testLabels)
-    print("Split data randomly into {} training and {} test instances.".format(ntrain, ntest))
+    trainingLabels = training_pandas_data[label_col].values
+    trainingFeatures = training_pandas_data[feat_cols].values
+    testLabels = test_pandas_data[label_col].values
+    testFeatures = test_pandas_data[feat_cols].values
 
     #We will use a linear Elastic Net model.
     en = ElasticNet(alpha=alpha, l1_ratio=l1_ratio)
@@ -40,16 +37,6 @@ def train(pandasData, label_col, feat_cols, test_percent, alpha, l1_ratio, data_
     print("Training set score:", r2_score_training)
     if test_percent != 0:
         print("Test set score:", r2_score_test)
-
-    #Logging the parameters for viewing later. Can be found in the folder mlruns/.
-    if data_path:
-        log_parameter("Data Path", data_path)
-    log_parameter("Alpha", alpha)
-    log_parameter("l1 ratio", l1_ratio)
-    log_parameter("Testing set percentage", test_percent)
-    log_parameter("Label column", label_col)
-    log_parameter("Feature columns", feat_cols)
-    log_parameter("Number of data points", len(features))
 
     #Logging the r2 score for both sets.
     log_metric("R2 score for training set", r2_score_training)
