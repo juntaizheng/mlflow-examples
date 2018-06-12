@@ -59,5 +59,5 @@ where `insert/data/path/` is replaced with the actual path to the parquet data, 
 
 To run an app from a different directory, replace the "." with the path to the root repository folder. For example, the command to run the app from the parent directory of `mlflow-examples` is:
 ```
-mlflow run mlflow-examples -e linear-regression-example -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="price" 
+mlflow run mlflow-examples -e linear-regression-main -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="price" 
 ```
