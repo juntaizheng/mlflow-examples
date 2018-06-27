@@ -1,9 +1,11 @@
+import os
 import pandas
+import pickle
 import mlflow
 from mlflow import log_metric, log_param, tensorflow
 import tensorflow as tf
 
-#mlflow run dnn-regressor -e main -P model-dir="dnn-regressor/estimator" -P training-data-path="dnn-regressor/diamonds/train_diamonds.parquet" -P test-data-path="dnn-regressor/diamonds/test_diamonds.parquet" -P hidden-units="30,30" -P label-col="price" -P steps=5000 -P batch-size=128 --no-conda
+# mlflow run mlflow-examples -e dnn-regression-main -P model-dir="mlflow-examples/dnn-regression/estimator" -P training-data-path="mlflow-examples/diamonds/train_diamonds.parquet" -P test-data-path="mlflow-examples/diamonds/test_diamonds.parquet" -P hidden-units="30,30" -P label-col="price" -P steps=5000 -P batch-size=128
 
 def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols, hidden_units, steps, batch_size, training_data_path, test_data_path):
 
@@ -56,22 +58,19 @@ def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols,
 
     print("Test RMSE:", test_rmse)
 
-    print("Logging parameters.")
-    log_param("Training data path", training_data_path)
-    log_param("Test data path", test_data_path)
-    log_param("Label column", label_col)
-    log_param("Feature columns", feat_cols)
-    log_param("Hidden units", hidden_units)
-    log_param("Steps", steps)
-    log_param("Batch size", batch_size)
     log_param("Number of data points", len(training_pandasData[label_col].values))
 
-    #Logging the RMSE.
+    #Logging the RMSE and predictions.
     log_metric("RMSE for test set", test_rmse)
-
+    
     # Saving TensorFlow model.
     saved_estimator_path = regressor.export_savedmodel(model_dir, 
                                                        receiver_fn).decode("utf-8")
+
+    #Saving the predictions of the TensorFlow model. For integration testing purposes.
+    with open(os.path.join(saved_estimator_path, "predictions"), "wb") as f:
+        pickle.dump([s['predictions'][0] for s in list(regressor.predict(input_fn=input_test))], f)
+
     # Logging the TensorFlow model just saved.
     tensorflow.log_saved_model(saved_model_dir=saved_estimator_path,
                                       signature_def_key="predict", 

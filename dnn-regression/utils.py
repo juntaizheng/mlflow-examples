@@ -24,8 +24,8 @@ def download_diamonds(temp_folder_path):
 
     pd_df.rename(columns=lambda x: re.sub(r'[^\w]', '', x), inplace=True)
     # Splitting the data up so that 80% of the data is training data, 20% testing data.
-    training_data = pd_df[:pd_df.shape[0]*.8]
-    testing_data = pd_df[pd_df.shape[0:]*.8]
+    training_data = pd_df[:int(pd_df.shape[0]*.8)]
+    testing_data = pd_df[int(pd_df.shape[0]*.8):]
     print("Downloaded diamonds csv file.")
     print("Creating diamonds dataset parquet files...")
     with open(os.path.join(temp_folder_path, "train_diamonds.parquet"), 'w'):
