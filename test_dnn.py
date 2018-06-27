@@ -1,9 +1,10 @@
-from mlflow.utils.file_utils import TempDir
 import os
+import pickle
+import pandas
+from mlflow.utils.file_utils import TempDir
 from mlflow.projects import run
 from mlflow import tracking, tensorflow
-import pandas
-import pickle
+
 
 def test_dnn():
     old_uri = tracking.get_tracking_uri()

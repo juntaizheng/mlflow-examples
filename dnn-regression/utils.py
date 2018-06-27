@@ -1,8 +1,7 @@
 import os
-import urllib.request
-import pandas
 import re
 import sys
+import pandas
 
 # Downloads the diamonds dataset into the provided folder path.
 # Converts categorical values into numerical values and splits the data into training/testing sets.

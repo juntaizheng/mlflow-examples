@@ -1,13 +1,17 @@
 import os
-import pandas
 import pickle
 import mlflow
 from mlflow import log_metric, log_param, tensorflow
 import tensorflow as tf
 
-# mlflow run mlflow-examples -e dnn-regression-main -P model-dir="mlflow-examples/dnn-regression/estimator" -P training-data-path="mlflow-examples/diamonds/train_diamonds.parquet" -P test-data-path="mlflow-examples/diamonds/test_diamonds.parquet" -P hidden-units="30,30" -P label-col="price" -P steps=5000 -P batch-size=128
+# mlflow run mlflow-examples -e dnn-regression-main 
+# -P model-dir="mlflow-examples/dnn-regression/estimator" 
+# -P training-data-path="mlflow-examples/diamonds/train_diamonds.parquet" 
+# -P test-data-path="mlflow-examples/diamonds/test_diamonds.parquet" 
+# -P hidden-units="30,30" -P label-col="price" -P steps=5000 -P batch-size=128
 
-def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols, hidden_units, steps, batch_size, training_data_path, test_data_path):
+def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols, hidden_units, 
+          steps, batch_size, training_data_path, test_data_path):
 
     print("training-data-path:    " + training_data_path)
     print("test-data-path:        " + test_data_path)
@@ -38,8 +42,14 @@ def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols,
     receiver_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(feature_spec)
 
     # Create input functions for both the training and testing sets.
-    input_train = tf.estimator.inputs.numpy_input_fn(trainingFeatures, trainingLabels, shuffle=True, batch_size=batch_size)
-    input_test = tf.estimator.inputs.numpy_input_fn(testFeatures, testLabels, shuffle=False, batch_size=batch_size)
+    input_train = tf.estimator.inputs.numpy_input_fn(trainingFeatures, 
+                                                    trainingLabels, 
+                                                    shuffle=True, 
+                                                    batch_size=batch_size)
+    input_test = tf.estimator.inputs.numpy_input_fn(testFeatures, 
+                                                    testLabels, 
+                                                    shuffle=False, 
+                                                    batch_size=batch_size)
     
     # Creating DNNRegressor
     regressor = tf.estimator.DNNRegressor(
