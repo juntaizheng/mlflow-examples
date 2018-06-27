@@ -1,9 +1,0 @@
-artifact_path: model
-flavors:
-  python_function:
-    loader_module: mlflow.tensorflow
-  tensorflow:
-    saved_model_dir: /Users/juntaizheng/dnn-regressor/estimator/1530049587
-    signature_def_key: predict
-run_id: d7f0c1bc947646da98ac9074c1ddfb9d
-utc_time_created: '2018-06-26 21:46:22.550997'
