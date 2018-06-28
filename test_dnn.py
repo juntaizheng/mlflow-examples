@@ -23,13 +23,14 @@ def test_dnn():
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
+            label_col = "price"
             # Run the main dnn app via mlflow
             run(".", entry_point="dnn-regression-main", version=None, 
             parameters={"model-dir": estimator,
                         "training-data-path": os.path.join(diamonds, "train_diamonds.parquet"),
                         "test-data-path": os.path.join(diamonds, "test_diamonds.parquet"), 
                         "hidden-units": "30,30", 
-                        "label-col":"price", 
+                        "label-col":label_col, 
                         "steps":5000, 
                         "batch-size":128}, 
             experiment_id=tracking._get_experiment_id(), mode="local", 
@@ -42,8 +43,8 @@ def test_dnn():
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
             # Predicting from the saved pyfunc.
-            predict = pyfunc.predict(df).values.tolist()
-
-            assert type(predict[0][0]) is float
+            predict_df = pyfunc.predict(df)
+            assert label_col in predict_df
+            assert predict_df[label_col].dtype == float
     finally:
         tracking.set_tracking_uri(old_uri)
