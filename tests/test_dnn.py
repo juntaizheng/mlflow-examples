@@ -18,7 +18,7 @@
 #             os.mkdir(artifacts)
 #             tracking.set_tracking_uri(artifacts)
 #             # Download the diamonds dataset via mlflow run
-#             run(".", entry_point="download-example-data", version=None, parameters={"dir":diamonds}, 
+#             run(".", entry_point="download-example-data", version=None, parameters={"dest-dir":diamonds}, 
 #             experiment_id=tracking._get_experiment_id(), mode="local", 
 #             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
 #             use_temp_cwd=False, storage_dir=None)
@@ -44,10 +44,8 @@
 #             # Predicting from the saved pyfunc.
 #             predict = pyfunc.predict(df).values.tolist()
 
-#             # Loading the saved predictions to compare to the pyfunc predictions.
-#             with open(os.path.join(estimator, os.listdir(estimator)[0], "predictions"), "rb") as f:
-#                 saved = pickle.load(f)
+#             predict = pyfunc.predict(df).values.tolist()
 
-#             assert predict == saved
+#             assert type(predict[0][0]) is float
 #     finally:
 #         tracking.set_tracking_uri(old_uri)

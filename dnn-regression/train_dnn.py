@@ -77,10 +77,6 @@ def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols,
     saved_estimator_path = regressor.export_savedmodel(model_dir, 
                                                        receiver_fn).decode("utf-8")
 
-    #Saving the predictions of the TensorFlow model. For integration testing purposes.
-    with open(os.path.join(saved_estimator_path, "predictions"), "wb") as f:
-        pickle.dump([s['predictions'][0] for s in list(regressor.predict(input_fn=input_test))], f)
-
     # Logging the TensorFlow model just saved.
     tensorflow.log_saved_model(saved_model_dir=saved_estimator_path,
                                       signature_def_key="predict", 

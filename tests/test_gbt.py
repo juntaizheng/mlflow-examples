@@ -8,7 +8,7 @@ from mlflow import tracking
 from mlflow.sklearn import load_pyfunc
 
 
-def test_linear():
+def test_dnn():
     old_uri = tracking.get_tracking_uri()
     with TempDir(chdr=False, remove_on_exit=True) as tmp:
         try:
