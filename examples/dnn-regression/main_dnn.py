@@ -1,7 +1,7 @@
 import argparse
 import pandas
 import train_dnn
-from ..utils import utils
+import utils
 
 # Trains a single-machine Tensorflow DNNRegressor model on the provided data file, 
 # producing a pickled model file. Uses MLflow tracking APIs to log the input parameters, 
