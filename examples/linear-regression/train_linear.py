@@ -1,12 +1,11 @@
 from time import time
 from sklearn.linear_model import ElasticNet
-from sklearn.cross_validation import train_test_split
-from mlflow import log_metric, tracking
+from mlflow import log_metric
 from mlflow.sklearn import log_model
-import os
-import pickle
 
-def train(training_pandas_data, test_pandas_data, label_col, feat_cols, alpha, l1_ratio, training_data_path, test_data_path):
+
+def train(training_pandas_data, test_pandas_data, label_col, 
+          feat_cols, alpha, l1_ratio, training_data_path, test_data_path):
 
     print("training-data-path:    " + training_data_path)
     print("test-data-path:        " + test_data_path)

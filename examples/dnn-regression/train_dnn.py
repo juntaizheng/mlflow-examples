@@ -1,16 +1,9 @@
-import os
-import pickle
 import mlflow
 from mlflow import log_metric, log_param, tensorflow
 import tensorflow as tf
 
-# mlflow run mlflow-examples -e dnn-regression-main 
-# -P model-dir="mlflow-examples/dnn-regression/estimator" 
-# -P training-data-path="mlflow-examples/diamonds/train_diamonds.parquet" 
-# -P test-data-path="mlflow-examples/diamonds/test_diamonds.parquet" 
-# -P hidden-units="30,30" -P label-col="price" -P steps=5000 -P batch-size=128
 
-def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols, hidden_units, 
+def train(model_dir, training_pandas_data, test_pandas_data, label_col, feat_cols, hidden_units, 
           steps, batch_size, training_data_path, test_data_path):
 
     print("training-data-path:    " + training_data_path)
@@ -24,17 +17,17 @@ def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols,
         print("feat-cols:             " + feat)
 
     # Split data into a labels dataframe and a features dataframe
-    trainingLabels = training_pandasData[label_col].values
-    testLabels = test_pandasData[label_col].values
+    training_labels = training_pandas_data[label_col].values
+    test_labels = test_pandas_data[label_col].values
 
-    trainingFeatures = {} # Dictionary of column names to column values for training
-    testFeatures = {} # Dictionary of column names to column values for testing
-    tf_feat_cols = [] # List of tf.feature_columns for input functions
-    feature_spec = {} # Dictionary of column name -> placeholder tensor for receiver functions
+    training_features = {}  # Dictionary of column names to column values for training
+    test_features = {}  # Dictionary of column names to column values for testing
+    tf_feat_cols = []  # List of tf.feature_columns for input functions
+    feature_spec = {}  # Dictionary of column name -> placeholder tensor for receiver functions
     # Create TensorFlow columns based on passed in feature columns
     for feat in feat_cols:
-        trainingFeatures[feat] = training_pandasData[feat].values
-        testFeatures[feat] = test_pandasData[feat].values
+        training_features[feat] = training_pandas_data[feat].values
+        test_features[feat] = test_pandas_data[feat].values
         tf_feat_cols.append(tf.feature_column.numeric_column(feat))
         feature_spec[feat] = tf.placeholder("float", name=feat, shape=[None])
 
@@ -42,15 +35,11 @@ def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols,
     receiver_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(feature_spec)
 
     # Create input functions for both the training and testing sets.
-    input_train = tf.estimator.inputs.numpy_input_fn(trainingFeatures, 
-                                                    trainingLabels, 
-                                                    shuffle=True, 
-                                                    batch_size=batch_size)
-    input_test = tf.estimator.inputs.numpy_input_fn(testFeatures, 
-                                                    testLabels, 
-                                                    shuffle=False, 
-                                                    batch_size=batch_size)
-    
+    input_train = tf.estimator.inputs.numpy_input_fn(training_features, training_labels, 
+                                                     shuffle=True, batch_size=batch_size)
+    input_test = tf.estimator.inputs.numpy_input_fn(test_features, test_labels, 
+                                                    shuffle=False, batch_size=batch_size)
+
     # Creating DNNRegressor
     regressor = tf.estimator.DNNRegressor(
         feature_columns=tf_feat_cols,
@@ -68,22 +57,18 @@ def train(model_dir, training_pandasData, test_pandasData, label_col, feat_cols,
 
     print("Test RMSE:", test_rmse)
 
-    log_param("Number of data points", len(training_pandasData[label_col].values))
+    log_param("Number of data points", len(training_pandas_data[label_col].values))
 
     #Logging the RMSE and predictions.
     log_metric("RMSE for test set", test_rmse)
-    
+
     # Saving TensorFlow model.
     saved_estimator_path = regressor.export_savedmodel(model_dir, 
                                                        receiver_fn).decode("utf-8")
 
-    #Saving the predictions of the TensorFlow model. For integration testing purposes.
-    with open(os.path.join(saved_estimator_path, "predictions"), "wb") as f:
-        pickle.dump([s['predictions'][0] for s in list(regressor.predict(input_fn=input_test))], f)
-
     # Logging the TensorFlow model just saved.
     tensorflow.log_saved_model(saved_model_dir=saved_estimator_path,
-                                      signature_def_key="predict", 
-                                      artifact_path="model")
+                               signature_def_key="predict", 
+                               artifact_path="model")
 
     print("Model saved in mlruns/%s" % mlflow.tracking.active_run().info.run_uuid)

@@ -1,6 +1,5 @@
 import os
 import numpy
-import pickle
 import pandas
 from mlflow.utils.file_utils import TempDir
 from mlflow.projects import run
@@ -39,13 +38,13 @@ def test_linear():
             use_temp_cwd=False, storage_dir=None)
 
             # Identifying the new experiment folder
-            main_experiment = None
+            main = None
             for item in os.listdir(initial):
                 if item not in dir_list:
-                    main_experiment = item
+                    main = item
 
             # Loading the saved model as a pyfunc
-            pyfunc = load_pyfunc(os.path.join(initial, main_experiment, "artifacts/model/model.pkl"))
+            pyfunc = load_pyfunc(os.path.join(initial, main, "artifacts/model/model.pkl"))
 
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
@@ -56,6 +55,6 @@ def test_linear():
             predict = pyfunc.predict(df)
 
             # Make sure the data is of the right type
-            assert type(predict[0]) is numpy.float64
+            assert isinstance(predict[0], numpy.float64)
         finally:
             tracking.set_tracking_uri(old_uri)

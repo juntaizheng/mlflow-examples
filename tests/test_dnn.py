@@ -1,5 +1,4 @@
 import os
-import pickle
 import pandas
 from mlflow.utils.file_utils import TempDir
 from mlflow.projects import run
@@ -41,11 +40,8 @@ def test_dnn():
 
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
-            # Predicting from the saved pyfunc.
             predict = pyfunc.predict(df).values.tolist()
 
-            predict = pyfunc.predict(df).values.tolist()
-
-            assert type(predict[0][0]) is float
+            assert isinstance(predict[0][0], float)
     finally:
         tracking.set_tracking_uri(old_uri)

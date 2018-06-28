@@ -1,16 +1,8 @@
-import pandas
 import xgboost as xgb
 
 from mlflow import log_metric
-from mlflow.sklearn import log_model, save_model
+from mlflow.sklearn import log_model
 
-from sklearn import *
-from sklearn.cross_validation import train_test_split
-from sklearn.preprocessing import normalize
-from sklearn.ensemble import *
-from sklearn.metrics import *
-
-from time import time
 
 def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m_depth, 
           learning_rate, loss, training_data_path, test_data_path):
@@ -33,10 +25,12 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m
     testFeatures = test_pandasData[feat_cols]
     
     # We will use a GBT regressor model.
-    xgbr = xgb.XGBRegressor(max_depth = m_depth, learning_rate = learning_rate, n_estimators = n_trees)
+    xgbr = xgb.XGBRegressor(max_depth=m_depth, 
+                            learning_rate=learning_rate, 
+                            n_estimators=n_trees)
 
     # Here we train the model and keep track of how long it takes.
-    xgbr.fit(trainingFeatures, trainingLabels, eval_metric = loss)
+    xgbr.fit(trainingFeatures, trainingLabels, eval_metric=loss)
 
     # Calculating the score of the model.
     r2_score_training = xgbr.score(trainingFeatures, trainingLabels)
@@ -50,4 +44,4 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m
 
     #Saving the model as an artifact.
     log_model(xgbr, "model")
-
+    
