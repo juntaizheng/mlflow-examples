@@ -43,9 +43,6 @@ def train(training_pandas_data, test_pandas_data, label_col, feat_cols, alpha, l
 
     #Saving the model as an artifact.
     log_model(en, "model")
-    #Saving the predictions of the test data.
-    with open(os.path.join(tracking.get_tracking_uri(), "predictions"), "wb") as f:
-        pickle.dump(en.predict(testFeatures), f)
 
     #Determining how long the program took.
     print("This model took", timed, "seconds to train and test.")

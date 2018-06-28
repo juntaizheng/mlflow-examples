@@ -1,4 +1,5 @@
 import os
+import numpy
 import pickle
 import pandas
 from mlflow.utils.file_utils import TempDir
@@ -22,6 +23,10 @@ def test_dnn():
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
+            # Keeping track of previous experiment so we can identify the new experiment's ID
+            initial = os.path.join(artifacts, os.listdir(artifacts)[0])
+            dir_list = os.listdir(initial)
+
             # Run the main dnn app via mlflow
             run(".", entry_point="linear-regression-main", version=None, 
             parameters={"training-data-path": os.path.join(diamonds, "train_diamonds.parquet"),
@@ -33,25 +38,24 @@ def test_dnn():
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
-            # Loading the saved model as a pyfunc.
-            initial = os.path.join(artifacts, os.listdir(artifacts)[0])
+            # Identifying the nex experiment folder
+            main_experiment = None
+            for item in os.listdir(initial):
+                if item not in dir_list:
+                    main_experiment = item
 
-            print(os.listdir(initial)[0])
+            # Loading the saved model as a pyfunc
+            pyfunc = load_pyfunc(os.path.join(initial, main_experiment, "artifacts/model/model.pkl"))
 
-            pyfunc = load_pyfunc(os.path.join(initial, "model/model.pkl"))
+            df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
-            df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))["price"]
+            # Removing the price column from the DataFrame so we can use the features to predict
+            df = df.drop(columns="price")
 
-            # Predicting from the saved pyfunc.
+            # Predicting from the saved pyfunc
+            predict = pyfunc.predict(df)
 
-            predict = pyfunc.predict(df.values.reshape(-1, 1))
-
-            print(type(predict))
-
-            # Loading the saved predictions to compare to the pyfunc predictions.
-            with open(os.path.join(artifacts, "predictions"), "rb") as f:
-                saved = pickle.load(f)
-
-            assert predict == saved
+            # Make sure the data is of the right type
+            assert type(predict[0]) is numpy.float64
         finally:
             tracking.set_tracking_uri(old_uri)
