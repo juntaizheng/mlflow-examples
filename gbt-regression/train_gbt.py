@@ -26,11 +26,11 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m
         print("feat-cols:             " + feat)
 
     # Split data into a labels dataframe and a features dataframe
-    trainingLabels = training_pandasData[label_col].values
-    trainingFeatures = training_pandasData[feat_cols].values
+    trainingLabels = training_pandasData[label_col]
+    trainingFeatures = training_pandasData[feat_cols]
 
-    testLabels = test_pandasData[label_col].values
-    testFeatures = test_pandasData[feat_cols].values
+    testLabels = test_pandasData[label_col]
+    testFeatures = test_pandasData[feat_cols]
     
     # We will use a GBT regressor model.
     xgbr = xgb.XGBRegressor(max_depth = m_depth, learning_rate = learning_rate, n_estimators = n_trees)

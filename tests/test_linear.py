@@ -38,7 +38,7 @@ def test_linear():
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
-            # Identifying the nex experiment folder
+            # Identifying the new experiment folder
             main_experiment = None
             for item in os.listdir(initial):
                 if item not in dir_list:
