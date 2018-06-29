@@ -1,4 +1,5 @@
 import os
+import numpy
 import pandas
 from mlflow.utils.file_utils import TempDir
 from mlflow.projects import run
@@ -17,7 +18,7 @@ def test_dnn():
             os.mkdir(artifacts)
             tracking.set_tracking_uri(artifacts)
             # Download the diamonds dataset via mlflow run
-            run(".", entry_point="download-example-data", version=None, parameters={"dir":diamonds}, 
+            run(".", entry_point="download-example-data", version=None, parameters={"dest-dir":diamonds}, 
             experiment_id=tracking._get_experiment_id(), mode="local", 
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
@@ -28,7 +29,7 @@ def test_dnn():
                         "training-data-path": os.path.join(diamonds, "train_diamonds.parquet"),
                         "test-data-path": os.path.join(diamonds, "test_diamonds.parquet"), 
                         "hidden-units": "30,30", 
-                        "label-col":"price", 
+                        "label-col": "price", 
                         "steps":5000, 
                         "batch-size":128}, 
             experiment_id=tracking._get_experiment_id(), mode="local", 
@@ -40,8 +41,8 @@ def test_dnn():
 
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
-            predict = pyfunc.predict(df).values.tolist()
-
-            assert isinstance(predict[0][0], float)
+            predict_df = pyfunc.predict(df)
+            assert 'predictions' in predict_df
+            assert isinstance(predict_df['predictions'][0][0], numpy.float32)
     finally:
         tracking.set_tracking_uri(old_uri)
