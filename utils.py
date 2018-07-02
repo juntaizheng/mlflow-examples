@@ -9,7 +9,7 @@ def download_diamonds(temp_folder_path):
 
     #Downloading csv file from ggplot2's hosted dataset on github.
     url = "https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv"
-    print("Downloading diamonds csv file...")
+    print("Downloading diamonds csv file to %s..." % temp_folder_path)
 
     pd_df = pandas.read_csv(url)
 
@@ -37,4 +37,3 @@ def download_diamonds(temp_folder_path):
 
 if __name__ == '__main__':
     download_diamonds(sys.argv[1])
-    
