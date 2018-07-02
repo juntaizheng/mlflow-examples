@@ -38,5 +38,5 @@ for hu in args.hidden_units:
 
 # Train the model based on the parameters provided.
 train_dnn.train(args.model_dir, training_pandasData, test_pandasData, args.label_col, 
-				feat_cols, hidden_units, args.steps, args.batch_size, 
+                feat_cols, hidden_units, args.steps, args.batch_size, 
                 args.training_data_path, args.test_data_path)
