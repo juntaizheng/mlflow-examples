@@ -14,9 +14,7 @@ This app creates and fits an [XGBoost Gradient Boosted Tree](https://xgboost.rea
 
 This app currently assumes that the input data is all numerical.
 
-The following commands should be run from the root repository directory.
-
-To run the app with default parameters on a dataset, run the command 
+To run the app with default parameters on a dataset while in the root directory, run the command 
 ```
 mlflow run . -e gbt-regression-main -P data-path="insert/data/path/" -P label-col="insert.label.col" 
 ```
@@ -34,9 +32,7 @@ This app creates and fits an [Elastic Net](http://scikit-learn.org/stable/module
 
 This app currently assumes that the input data is all numerical.
 
-The following commands should be run from the root repository directory.
-
-To run the app with default parameters on a dataset, run the command 
+To run the app with default parameters on a dataset while in the root directory, run the command 
 ```
 mlflow run . -e linear-regression-main -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="insert.label.col"
 ```
@@ -44,6 +40,7 @@ mlflow run . -e linear-regression-main -P training-data-path="insert/data/path/"
 ### dnn-regression
 
 This sample project creates and fits a Tensorflow [DNNRegressor](https://www.tensorflow.org/api_docs/python/tf/estimator/DNNRegressor) model based on parquet-formatted input data. Then, the application exports the model to a local file and logs the model using MLflow's APIs. The arguments to the program are as follows:
+* `model-dir`: (str, required) local path or URI of a directory to which the DNNRegressor's checkpoints and the final exported SavedModel will be written.
 * `training-data-path`: (str, required) local path or URI of a parquet file containing training data
 * `test-data-path`: (str, required) local path or URI of a parquet file containing test data
 * `hidden-units`: (str, required) size and number of layers for the dnn; `string` input which has layers delimited by commas (i.e. "10,10" for two layers of 10 nodes each)
@@ -55,11 +52,10 @@ This sample project creates and fits a Tensorflow [DNNRegressor](https://www.ten
 
 This example code works for numerical and categorical data. Column names must adhere to TensorFlow [constraints](https://www.tensorflow.org/api_docs/python/tf/Operation#__init__).
 
-To run the project locally with default parameters on a dataset, run the command
+To run the app with default parameters on a dataset while in the root directory, run the command 
 ```
 mlflow run . -e dnn-regression-main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
 ```
-where `insert/model/save/path` is the directory to which the DNNRegressor's checkpoints and the final exported SavedModel will be written.
 
 ### Downloading an Example Dataset
 
