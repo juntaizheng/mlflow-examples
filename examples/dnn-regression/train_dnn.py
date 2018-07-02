@@ -16,7 +16,7 @@ def train(model_dir, training_pandas_data, test_pandas_data, label_col, feat_col
     for feat in feat_cols:
         print("feat-cols:             " + feat)
 
-    # Split data into a labels dataframe and a features dataframe
+    # Split data into training labels and testing labels.
     training_labels = training_pandas_data[label_col].values
     test_labels = test_pandas_data[label_col].values
 
