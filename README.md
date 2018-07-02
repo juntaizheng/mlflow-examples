@@ -14,7 +14,7 @@ This app creates and fits an [XGBoost Gradient Boosted Tree](https://xgboost.rea
 
 This app currently assumes that the input data is all numerical.
 
-To run the app with default parameters on a dataset while in the root directory, run the command 
+To run the app with default parameters while in the root directory, run the command 
 ```
 mlflow run . -e gbt-regression-main -P data-path="insert/data/path/" -P label-col="insert.label.col" 
 ```
@@ -32,7 +32,7 @@ This app creates and fits an [Elastic Net](http://scikit-learn.org/stable/module
 
 This app currently assumes that the input data is all numerical.
 
-To run the app with default parameters on a dataset while in the root directory, run the command 
+To run the app with default parameters while in the root directory, run the command 
 ```
 mlflow run . -e linear-regression-main -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="insert.label.col"
 ```
@@ -52,36 +52,36 @@ This sample project creates and fits a Tensorflow [DNNRegressor](https://www.ten
 
 This example code works for numerical and categorical data. Column names must adhere to TensorFlow [constraints](https://www.tensorflow.org/api_docs/python/tf/Operation#__init__).
 
-To run the app with default parameters on a dataset while in the root directory, run the command 
+To run the app with default parameters while in the root directory, run the command 
 ```
 mlflow run . -e dnn-regression-main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
 ```
 
 ### Downloading an Example Dataset
 
-You can download example training & test parquet files containing the [diamonds](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv) dataset by running 
+You can download example training & test parquet files containing the [diamonds](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv) dataset by running the command 
 ```
 mlflow run  . -e download-example-data -P dest_dir="path/to/dir"
 ```
-You can then use these files as data for running the example application.
+You can then use these files as data for running the example applications.
 
 ### Specifying Additional Parameters
 
-To pass additional parameters to a `mlflow run`, add `-P name-of-argument=value.of.argument` to the command. An example of adding custom parameters to the `gbt-regression` example app is as follows: 
+To pass additional parameters to a `mlflow run` command, add `-P name-of-argument=value.of.argument` to the command. An example of adding custom parameters to the `gbt-regression` example app is as follows: 
 ```
 mlflow run . -e gbt-regression-main -P data-path="insert/data/path/" -P label-col="insert.label.col" -P feat-cols="insert,feat,cols" -P n-trees=500
 ```
 
 ### Running MLflow from a Different Directory
 
-To run an app from a different directory, replace the "." with the path to the folder containing the MLProject file. For example, the command to run the `linear-regression` app from `mlflow-examples`'s parent directory is
+To run an app from a different directory other than the root, replace the "." with the path to the folder containing the MLProject file. For example, the command to run the `linear-regression` app from `mlflow-examples`'s parent directory is
 ```
 mlflow run mlflow-examples -e linear-regression-main -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="insert.label.col" 
 ```
 
 ### Running MLflow from a Git Repository
 
-To run a MLflow project from a GitHub repository, replace the path to MlProject file folder with the SSH clone uri. For example, if you wanted to run the `dnn-regression` example application from a Git repository, run the command
+To run a MLflow project from a GitHub repository, replace the path to MlProject file folder with the SSH clone URI. For example, if you wanted to run the `dnn-regression` example application from a Git repository, run the command
 ```
 mlflow run git@github.com:databricks/mlflow-examples.git -e dnn-regression-main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
 ```
