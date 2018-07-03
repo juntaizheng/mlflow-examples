@@ -18,13 +18,9 @@ def test_linear():
             tracking.set_tracking_uri(artifacts)
             # Download the diamonds dataset via mlflow run
             run(".", entry_point="download-example-data", version=None, 
-            parameters={"dest-dir":diamonds}, experiment_id=tracking._get_experiment_id(), 
+            parameters={"dest-dir":diamonds}, experiment_id=0, 
             mode="local", cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
-
-            # Keeping track of previous experiment so we can identify the new experiment's ID
-            initial = os.path.join(artifacts, os.listdir(artifacts)[0])
-            dir_list = os.listdir(initial)
 
             # Run the main dnn app via mlflow
             run(".", entry_point="linear-regression-main", version=None, 
@@ -33,18 +29,12 @@ def test_linear():
                         "alpha": .001,
                         "l1-ratio": .5,
                         "label-col":"price"}, 
-            experiment_id=tracking._get_experiment_id(), mode="local", 
+            experiment_id=0, mode="local", 
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
-            # Identifying the new experiment folder
-            main = None
-            for item in os.listdir(initial):
-                if item not in dir_list:
-                    main = item
-
-            # Loading the saved model as a pyfunc
-            pyfunc = load_pyfunc(os.path.join(initial, main, "artifacts/model/model.pkl"))
+            initial = os.path.join(artifacts, os.listdir(artifacts)[0])
+            pyfunc = load_pyfunc(os.path.join(initial, os.listdir(initial)[0], "artifacts/model/model.pkl"))
 
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
