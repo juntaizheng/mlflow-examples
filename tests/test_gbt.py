@@ -18,34 +18,25 @@ def test_gbt():
             tracking.set_tracking_uri(artifacts)
             # Download the diamonds dataset via mlflow run
             run(".", entry_point="download-example-data", version=None, 
-            parameters={"dest-dir":diamonds}, experiment_id=tracking._get_experiment_id(), 
+            parameters={"dest-dir":diamonds}, experiment_id=0, 
             mode="local", cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
-
-            # Keeping track of previous experiment so we can identify the new experiment's ID
-            initial = os.path.join(artifacts, os.listdir(artifacts)[0])
-            dir_list = os.listdir(initial)
 
             # Run the main dnn app via mlflow
             run(".", entry_point="gbt-regression-main", version=None, 
             parameters={"training-data-path": os.path.join(diamonds, "train_diamonds.parquet"),
                         "test-data-path": os.path.join(diamonds, "test_diamonds.parquet"), 
-                        "n-trees": 100,
+                        "n-trees": 10,
                         "m-depth": 3,
                         "learning-rate": .1,
                         "loss": "rmse",
                         "label-col":"price"}, 
-            experiment_id=tracking._get_experiment_id(), mode="local", 
+            experiment_id=0, mode="local", 
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
-            # Identifying the new experiment folder
-            main = None
-            for item in os.listdir(initial):
-                if item not in dir_list:
-                    main = item
-
-            pyfunc = load_pyfunc(os.path.join(initial, main, "artifacts/model/model.pkl"))
+            initial = os.path.join(artifacts, os.listdir(artifacts)[0])
+            pyfunc = load_pyfunc(os.path.join(initial, os.listdir(initial)[0], "artifacts/model/model.pkl"))
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
             # Removing the price column from the DataFrame so we can use the features to predict
