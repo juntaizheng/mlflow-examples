@@ -50,7 +50,7 @@ This sample project creates and fits a Tensorflow [DNNRegressor](https://www.ten
 * `feat-cols`: (str) names of columns in dataset to be used as features; input is one `string` with names delimited by commas
     * This argument is optional. If no argument is provided, it is assumed that all columns but the label column are feature columns.
 
-This example code works for numerical and categorical data. Column names must adhere to TensorFlow [constraints](https://www.tensorflow.org/api_docs/python/tf/Operation#__init__).
+This app currently assumes that the input data is all numerical. Column names must adhere to TensorFlow [constraints](https://www.tensorflow.org/api_docs/python/tf/Operation#__init__).
 
 To run the app with default parameters while in the root directory, run the command 
 ```
