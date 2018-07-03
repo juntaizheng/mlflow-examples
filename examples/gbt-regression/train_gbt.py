@@ -1,7 +1,5 @@
 import xgboost as xgb
-
-from mlflow import log_metric
-from mlflow.sklearn import log_model
+from mlflow import log_metric, sklearn
 
 
 def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m_depth, 
@@ -17,7 +15,7 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m
     for feat in feat_cols:
         print("feat-cols:             " + feat)
 
-    # Split data into a labels dataframe and a features dataframe
+    # Split data into training labels and testing labels.
     trainingLabels = training_pandasData[label_col]
     trainingFeatures = training_pandasData[feat_cols]
 
@@ -43,5 +41,5 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m
     log_metric("R2 score for test set", r2_score_test)
 
     #Saving the model as an artifact.
-    log_model(xgbr, "model")
+    sklearn.log_model(xgbr, "model")
     

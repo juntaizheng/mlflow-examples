@@ -1,4 +1,3 @@
-import mlflow
 from mlflow import log_metric, log_param, tensorflow
 import tensorflow as tf
 
@@ -70,5 +69,3 @@ def train(model_dir, training_pandas_data, test_pandas_data, label_col, feat_col
     tensorflow.log_saved_model(saved_model_dir=saved_estimator_path,
                                signature_def_key="predict", 
                                artifact_path="model")
-
-    print("Model saved in mlruns/%s" % mlflow.tracking.active_run().info.run_uuid)
