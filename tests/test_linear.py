@@ -12,15 +12,18 @@ def test_linear():
     with TempDir(chdr=False, remove_on_exit=True) as tmp:
         try:
             diamonds = tmp.path("diamonds")
-            artifacts = tmp.path("artifacts")
+            root_tracking_dir = tmp.path("root_tracking_dir")
             os.mkdir(diamonds)
-            os.mkdir(artifacts)
-            tracking.set_tracking_uri(artifacts)
+            os.mkdir(root_tracking_dir)
+            tracking.set_tracking_uri(root_tracking_dir)
             # Download the diamonds dataset via mlflow run
             run(".", entry_point="download-example-data", version=None, 
             parameters={"dest-dir":diamonds}, experiment_id=0, 
             mode="local", cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
+
+            initial = os.path.join(root_tracking_dir, "0")
+            dir_list = os.listdir(initial)
 
             # Run the main dnn app via mlflow
             run(".", entry_point="linear-regression-main", version=None, 
@@ -33,8 +36,13 @@ def test_linear():
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
-            initial = os.path.join(artifacts, os.listdir(artifacts)[0])
-            pyfunc = load_pyfunc(os.path.join(initial, os.listdir(initial)[0], "artifacts/model/model.pkl"))
+            # Identifying the new run's folder
+            main = None
+            for item in os.listdir(initial):
+                if item not in dir_list:
+                    main = item
+
+            pyfunc = load_pyfunc(os.path.join(initial, main, "artifacts/model/model.pkl"))
 
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
