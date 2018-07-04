@@ -32,4 +32,4 @@ entry_points:
   download-example-data:
     parameters:
       dest-dir: path
-    command: "python dnn-regression/utils.py {dest-dir}"
+    command: "python utils.py {dest-dir}"
