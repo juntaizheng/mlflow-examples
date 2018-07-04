@@ -22,6 +22,9 @@ def test_gbt():
             mode="local", cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
+            initial = os.path.join(artifacts, "0")
+            dir_list = os.listdir(initial)
+
             # Run the main dnn app via mlflow
             run(".", entry_point="gbt-regression-main", version=None, 
             parameters={"training-data-path": os.path.join(diamonds, "train_diamonds.parquet"),
@@ -35,7 +38,12 @@ def test_gbt():
             cluster_spec=None, git_username=None, git_password=None, use_conda=True,
             use_temp_cwd=False, storage_dir=None)
 
-            initial = os.path.join(artifacts, os.listdir(artifacts)[0])
+            # Identifying the new run's folder
+            main = None
+            for item in os.listdir(initial):
+                if item not in dir_list:
+                    main = item
+            
             pyfunc = load_pyfunc(os.path.join(initial, os.listdir(initial)[0], "artifacts/model/model.pkl"))
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
