@@ -27,7 +27,7 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m
                             learning_rate=learning_rate, 
                             n_estimators=n_trees)
 
-    # Here we train the model and keep track of how long it takes.
+    # Here we train the model
     xgbr.fit(trainingFeatures, trainingLabels, eval_metric=loss)
 
     # Calculating the score of the model.
@@ -36,7 +36,7 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m
     print("Training set score:", r2_score_training)
     print("Test set score:", r2_score_test)
 
-    #Logging the r2 score for both sets.
+    # Logging the r2 score for both sets.
     log_metric("R2 score for training set", r2_score_training)
     log_metric("R2 score for test set", r2_score_test)
 
