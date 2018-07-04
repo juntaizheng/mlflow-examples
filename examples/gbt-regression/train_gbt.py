@@ -40,5 +40,5 @@ def train(training_pandasData, test_pandasData, label_col, feat_cols, n_trees, m
     log_metric("R2 score for training set", r2_score_training)
     log_metric("R2 score for test set", r2_score_test)
 
-    #Saving the model as an artifact.
+    # Saving the model as an artifact.
     sklearn.log_model(xgbr, "model")
