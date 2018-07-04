@@ -4,8 +4,8 @@ import train_gbt
 import utils
 
 # Trains a single-machine scikit-learn GBT model on the provided data file, 
-# producing a pickled model file. Uses MLflow tracking APIs to log the input parameters, 
-# the model file, and the model's training loss.
+# producing a pickled model file. Uses MLflow tracking APIs to log
+# the model file and the model's training loss.
 
 # Parsing arguments.
 parser = argparse.ArgumentParser()
