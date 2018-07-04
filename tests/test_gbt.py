@@ -44,7 +44,7 @@ def test_gbt():
                 if item not in dir_list:
                     main = item
             
-            pyfunc = load_pyfunc(os.path.join(initial, os.listdir(initial)[0], "artifacts/model/model.pkl"))
+            pyfunc = load_pyfunc(os.path.join(initial, main, "artifacts/model/model.pkl"))
             df = pandas.read_parquet(os.path.join(diamonds, "test_diamonds.parquet"))
 
             # Removing the price column from the DataFrame so we can use the features to predict
