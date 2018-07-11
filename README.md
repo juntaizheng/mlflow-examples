@@ -14,9 +14,6 @@ This app creates and fits an [XGBoost Gradient Boosted Tree](https://xgboost.rea
 
 This app currently assumes that the input data is all numerical.
 
-The following commands should be run from the root repository directory:
->>>>>>> fbde21f653a2afe6552f3e361f37c1889b480c62
-
 To run the app with default parameters while in the root directory, run the command 
 ```
 mlflow run . -e gbt-regression-main -P data-path="insert/data/path/" -P label-col="insert.label.col" 
