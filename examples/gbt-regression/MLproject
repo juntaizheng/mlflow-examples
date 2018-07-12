@@ -11,4 +11,3 @@ entry_points:
       loss: {type: str, default: "rmse"}
       label-col: str
     command: "python main_gbt.py {training-data-path} {test-data-path} {n-trees} {m-depth} {learning-rate} {loss} {label-col}"
-    

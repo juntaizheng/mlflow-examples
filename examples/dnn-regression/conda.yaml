@@ -7,4 +7,3 @@ dependencies:
     - mlflow
     - pyarrow
     - tensorflow==1.8.0
-    
