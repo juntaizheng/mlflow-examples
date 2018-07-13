@@ -13,5 +13,5 @@ This app currently assumes that the input data is all numerical.
 
 To run the app with default parameters while in the root directory, run the command 
 ```
-mlflow run . -e linear-regression-main -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="insert.label.col"
+mlflow run examples/linear-regression -e main -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P label-col="insert.label.col"
 ```

@@ -14,5 +14,5 @@ This app currently assumes that the input data is all numerical.
 
 To run the app with default parameters while in the root directory, run the command 
 ```
-mlflow run . -e gbt-regression-main -P data-path="insert/data/path/" -P label-col="insert.label.col" 
+mlflow run examples/gbt-regression -e main -P data-path="insert/data/path/" -P label-col="insert.label.col" 
 ```

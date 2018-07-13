@@ -15,5 +15,5 @@ This app currently assumes that the input data is all numerical. Column names mu
 
 To run the app with default parameters while in the root directory, run the command 
 ```
-mlflow run . -e dnn-regression-main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
+mlflow run examples/dnn-regression/ -e main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
 ```
