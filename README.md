@@ -18,7 +18,7 @@ mlflow run examples/gbt-regression/ -e main -P data-path="insert/data/path/" -P 
 
 ### Running MLflow from a Git Repository
 
-To run a MLflow project from a GitHub repository, replace the path to MLProject file folder with the SSH or HTTPS clone URI. To specify a project within a subdirectory, add a '#' to the end of the URI argument, followed by the path from the repository's root directory to the subdirectory containing the desired project. For example, if you wanted to run the `dnn-regression` example application from a Git repository, run the command
+To run a MLflow project from a Git repository, replace the path to MLProject file folder with the SSH or HTTPS clone URI. To specify a project within a subdirectory, add a '#' to the end of the URI argument, followed by the path from the repository's root directory to the subdirectory containing the desired project. For example, if you wanted to run the `dnn-regression` example application from a Git repository, run the command
 ```
 mlflow run git@github.com:databricks/mlflow-examples.git#examples/dnn-regression/ -e main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
 ```
