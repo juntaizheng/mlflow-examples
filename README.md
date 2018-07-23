@@ -1,6 +1,8 @@
 # mlflow-examples
 ## [MLflow](http://mlflow.org) App Library
 
+This example library contains projects demonstrating usage of different model types supported by MLflow.
+
 ### Downloading an Example Dataset
 
 You can download example training & test parquet files containing the [diamonds](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv) dataset by running the command 
@@ -16,16 +18,18 @@ To pass additional parameters to a `mlflow run` command, add `-P name-of-argumen
 mlflow run examples/gbt-regression/ -e main -P data-path="insert/data/path/" -P label-col="insert.label.col" -P feat-cols="insert,feat,cols" -P n-trees=500
 ```
 
-### Running MLflow from a Git Repository
+### Running MLflow from Code
 
-To run a MLflow project from a GitHub repository, replace the path to MLProject file folder with the SSH or HTTPS clone URI. To specify a project within a subdirectory, add a '#' to the end of the URI argument, followed by the path from the repository's root directory to the subdirectory containing the desired project. For example, if you wanted to run the `dnn-regression` example application from a Git repository, run the command
+You can use MLflow's [Python API](https://mlflow.org/docs/latest/projects.html#building-multi-step-workflows) to run a Mlflow project in your own code. For example, running an app from this library's Git repo using the API would look like the following:
 ```
-mlflow run git@github.com:databricks/mlflow-examples.git#examples/dnn-regression/ -e main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
+mlflow.projects.run(uri="git@github.com:databricks/mlflow-examples.git#examples/dnn-regression/", parameters=[("model-dir","insert/model/save/path"), ("training-data-path","insert/data/path/"), ("test-data-path","insert/data/path/"), ("hidden-units","10,10"), ("label-col","insert.label.col")])
 ```
+
+## Apps
 
 ### dnn-regression
 
-This sample project creates and fits a Tensorflow [DNNRegressor](https://www.tensorflow.org/api_docs/python/tf/estimator/DNNRegressor) model based on parquet-formatted input data. Then, the application exports the model to a local file and logs the model using MLflow's APIs. See more info [here](examples/dnn-regression/).
+This app creates and fits a Tensorflow [DNNRegressor](https://www.tensorflow.org/api_docs/python/tf/estimator/DNNRegressor) model based on parquet-formatted input data. Then, the application exports the model to a local file and logs the model using MLflow's APIs. See more info [here](examples/dnn-regression/).
 
 ### gbt-regression
 This app creates and fits an [XGBoost Gradient Boosted Tree](https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.sklearn) model based on parquet-formatted input data. See more info [here](examples/gbt-regression/).
@@ -33,3 +37,7 @@ This app creates and fits an [XGBoost Gradient Boosted Tree](https://xgboost.rea
 ### linear-regression
 
 This app creates and fits an [Elastic Net](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html) model based on parquet-formatted input data. See more info [here](examples/linear-regression/).
+
+## Contributing
+
+If you would like to contribute to this library, please see the [contribution guide](CONTRIBUTING.md) for details.
