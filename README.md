@@ -1,5 +1,4 @@
-# mlflow-examples
-## [MLflow](http://mlflow.org) App Library
+# [MLflow](http://mlflow.org) App Library
 
 Collection of pluggable MLflow apps (MLflow projects). You can call the apps in this repository to:
 * Seamlessly embed ML functionality into your own applications
@@ -10,6 +9,7 @@ Collection of pluggable MLflow apps (MLflow projects). You can call the apps in 
 Let's start by running the DNNRegressor app, which trains a deep feedforward neural net using TensorFlow.
 
 First, download example training & test parquet files by running:
+TODO: Make this example work more seamlessly out of the box (use bash commands to create a temporary dir for downloading the data for the user, etc).
  
 ```
 mlflow run  . -e download-example-data -P dest_dir="path/to/dir"
@@ -24,16 +24,16 @@ mlflow run examples/dnn-regression/ -e main -P model-dir="insert/model/save/path
 
 We can now use the fitted model to make predictions on our test data via the MLflow CLI:
 ```
-TODO: FILL THIS OUT
+TODO: Add command here
 ```
 
-## Calling an App in Your Code
+### Calling an App in Your Code
 
 TODO: we should write/include an example notebook that shows how to call an app via the MLflow Python API
 
 Calling an app from your code is simple  - just use MLflow's [Python API](https://mlflow.org/docs/latest/projects.html#building-multi-step-workflows):
 ```
-# Train a TensorFlow DNNRegressor, exporting it to exported_model_path as an MLflow model
+# Train a TensorFlow DNNRegressor, exporting it as an MLflow model
 train_data_path = "..."
 test_data_path = "..."
 label_col = "..."
