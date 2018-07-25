@@ -1,31 +1,50 @@
 # mlflow-examples
 ## [MLflow](http://mlflow.org) App Library
 
-This example library contains projects demonstrating usage of different model types supported by MLflow.
+Collection of pluggable MLflow apps (MLflow projects). You can call the apps in this repository to:
+* Seamlessly embed ML functionality into your own applications
+* Reproducibly train models from a variety of frameworks on big & small data, without worrying about installing dependencies
 
-### Downloading an Example Dataset
+## Getting Started
+### Running Apps via the CLI
+Let's start by running the DNNRegressor app, which trains a deep feedforward neural net using TensorFlow.
 
-You can download example training & test parquet files containing the [diamonds](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv) dataset by running the command 
+First, download example training & test parquet files by running:
+ 
 ```
 mlflow run  . -e download-example-data -P dest_dir="path/to/dir"
 ```
-You can then use these files as data for running the example applications.
 
-### Specifying Additional Parameters
+This will download the diamonds [diamonds](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv) dataset to the specified path.
 
-To pass additional parameters to a `mlflow run` command, add `-P name-of-argument=value.of.argument` to the command. An example of adding custom parameters to the `gbt-regression` example app is as follows: 
+Then, train a neural network on the data, saving the fitted network as an MLflow model. See the app docs (TODO link to app docs) for more info on available parameters
 ```
-mlflow run examples/gbt-regression/ -e main -P data-path="insert/data/path/" -P label-col="insert.label.col" -P feat-cols="insert,feat,cols" -P n-trees=500
+mlflow run examples/dnn-regression/ -e main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
 ```
 
-### Running MLflow from Code
-
-You can use MLflow's [Python API](https://mlflow.org/docs/latest/projects.html#building-multi-step-workflows) to run a Mlflow project in your own code. For example, running an app from this library's Git repo using the API would look like the following:
+We can now use the fitted model to make predictions on our test data via the MLflow CLI:
 ```
-mlflow.projects.run(uri="git@github.com:databricks/mlflow-examples.git#examples/dnn-regression/", parameters=[("model-dir","insert/model/save/path"), ("training-data-path","insert/data/path/"), ("test-data-path","insert/data/path/"), ("hidden-units","10,10"), ("label-col","insert.label.col")])
+TODO: FILL THIS OUT
+```
+
+## Calling an App in Your Code
+
+TODO: we should write/include an example notebook that shows how to call an app via the MLflow Python API
+
+Calling an app from your code is simple  - just use MLflow's [Python API](https://mlflow.org/docs/latest/projects.html#building-multi-step-workflows):
+```
+# Train a TensorFlow DNNRegressor, exporting it to exported_model_path as an MLflow model
+train_data_path = "..."
+test_data_path = "..."
+label_col = "..."
+exported_model_path = "..."
+hidden_units = [10, 10]
+mlflow.projects.run(uri="git@github.com:databricks/mlflow-examples.git#examples/dnn-regression/", parameters=[("model-dir", exported_model_path), ("training-data-path", train_data_path), ("test-data-path", test_data_path), ("hidden-units", ",".join(map(str, hidden_units)), ("label-col", label_col)])
 ```
 
 ## Apps
+
+The library contains the following apps:
 
 ### dnn-regression
 
