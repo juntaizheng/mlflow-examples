@@ -12,6 +12,7 @@ def download_diamonds(temp_folder_path):
     print("Downloading diamonds csv file to %s..." % temp_folder_path)
 
     pd_df = pandas.read_csv(url)
+    pd_df.to_csv(os.path.join(temp_folder_path, "diamonds.csv"))
 
     # Conversion of qualitative values to quantitative values. For diamonds only.
     pd_df['cut'] = pd_df['cut'].replace({'Fair':0, 'Good':1, 
