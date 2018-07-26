@@ -11,18 +11,17 @@ Let's start by running the gbt-regression app, which trains an XGBoost Gradient 
 First, download example training & test parquet files by running:
  
 ```
-temp="temp-data"
-mkdir $temp
-mlflow run git@github.com:databricks/mlflow-examples.git -e download-example-data -P dest-dir=$temp
+temp="$(mktemp -d)"
+mlflow run git@github.com:databricks/mlflow-apps.git -e download-example-data -P dest-dir=$temp
 ```
 
 This will download the diamonds [diamonds](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv) dataset to the directory `temp-data`.
 
 Then, train a GBT model on the data, saving the fitted network as an MLflow model. See the [gbt-regression docs](examples/gbt-regression/README.md) for more info on available parameters.
 ```
-mlflow run git@github.com:databricks/mlflow-examples.git#examples/gbt-regression/ -P training-data-path="$temp/train_diamonds.parquet" -P test-data-path="$temp/test_diamonds.parquet" -P label-col="price"
+mlflow run git@github.com:databricks/mlflow-apps.git#examples/gbt-regression/ -P training-data-path="$temp/train_diamonds.parquet" -P test-data-path="$temp/test_diamonds.parquet" -P label-col="price"
 ```
-The output will show you data about the run, including the parameters passed in and the score of the model on the testing data. It should contain a line like this:
+The output will contain a line with the run ID, e.g:
 ```
 Run with ID <run id> finished
 ```
@@ -41,7 +40,7 @@ Calling an app from your code is simple  - just use MLflow's [Python API](https:
 train_data_path = "..."
 test_data_path = "..."
 label_col = "..."
-mlflow.projects.run(uri="git@github.com:databricks/mlflow-examples.git#examples/gbt-regression/", parameters=[("training-data-path", train_data_path), ("test-data-path", test_data_path), ("label-col", label_col)])
+mlflow.projects.run(uri="git@github.com:databricks/mlflow-apps.git#examples/gbt-regression/", parameters=[("training-data-path", train_data_path), ("test-data-path", test_data_path), ("label-col", label_col)])
 ```
 
 ## Apps
