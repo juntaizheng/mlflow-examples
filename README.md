@@ -6,40 +6,42 @@ Collection of pluggable MLflow apps (MLflow projects). You can call the apps in 
 
 ## Getting Started
 ### Running Apps via the CLI
-Let's start by running the DNNRegressor app, which trains a deep feedforward neural net using TensorFlow.
+Let's start by running the gbt-regression app, which trains an XGBoost Gradient Boosted Tree model.
 
 First, download example training & test parquet files by running:
-TODO: Make this example work more seamlessly out of the box (use bash commands to create a temporary dir for downloading the data for the user, etc).
  
 ```
-mlflow run  . -e download-example-data -P dest_dir="path/to/dir"
+temp="temp-data"
+mkdir $temp
+mlflow run git@github.com:databricks/mlflow-examples.git -e download-example-data -P dest-dir=$temp
 ```
 
-This will download the diamonds [diamonds](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv) dataset to the specified path.
+This will download the diamonds [diamonds](https://raw.githubusercontent.com/tidyverse/ggplot2/4c678917/data-raw/diamonds.csv) dataset to the directory `temp-data`.
 
-Then, train a neural network on the data, saving the fitted network as an MLflow model. See the app docs (TODO link to app docs) for more info on available parameters
+Then, train a GBT model on the data, saving the fitted network as an MLflow model. See the [gbt-regression docs](examples/gbt-regression/README.md) for more info on available parameters.
 ```
-mlflow run examples/dnn-regression/ -e main -P model-dir="insert/model/save/path" -P training-data-path="insert/data/path/" -P test-data-path="insert/data/path/" -P hidden-units="10,10" -P label-col="insert.label.col"
+mlflow run git@github.com:databricks/mlflow-examples.git#examples/gbt-regression/ -P training-data-path="$temp/train_diamonds.parquet" -P test-data-path="$temp/test_diamonds.parquet" -P label-col="price"
+```
+The output will show you data about the run, including the parameters passed in and the score of the model on the testing data. It should contain a line like this:
+```
+Run with ID <run id> finished
 ```
 
-We can now use the fitted model to make predictions on our test data via the MLflow CLI:
+We can now use the fitted model to make predictions on our test data via the MLflow CLI and the run id produced by the previous command:
 ```
-TODO: Add command here
+mlflow pyfunc predict -m model -r <run id> -i "$temp/diamonds.csv"
 ```
+The output of this command will be 20 numbers, which are predictions of 20 diamonds' prices based on their features (located in `temp-data/diamonds.csv`). You can compare these numbers to the actual prices of the diamonds, which are located in `temp-data/actual_diamonds.csv`.
 
 ### Calling an App in Your Code
 
-TODO: we should write/include an example notebook that shows how to call an app via the MLflow Python API
-
 Calling an app from your code is simple  - just use MLflow's [Python API](https://mlflow.org/docs/latest/projects.html#building-multi-step-workflows):
 ```
-# Train a TensorFlow DNNRegressor, exporting it as an MLflow model
+# Train an XGBoost GBT, exporting it as an MLflow model
 train_data_path = "..."
 test_data_path = "..."
 label_col = "..."
-exported_model_path = "..."
-hidden_units = [10, 10]
-mlflow.projects.run(uri="git@github.com:databricks/mlflow-examples.git#examples/dnn-regression/", parameters=[("model-dir", exported_model_path), ("training-data-path", train_data_path), ("test-data-path", test_data_path), ("hidden-units", ",".join(map(str, hidden_units)), ("label-col", label_col)])
+mlflow.projects.run(uri="git@github.com:databricks/mlflow-examples.git#examples/gbt-regression/", parameters=[("training-data-path", train_data_path), ("test-data-path", test_data_path), ("label-col", label_col)])
 ```
 
 ## Apps
