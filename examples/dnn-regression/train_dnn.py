@@ -71,5 +71,5 @@ def train(model_dir, training_pandas_data, test_pandas_data, label_col, feat_col
                                signature_def_key="predict", 
                                artifact_path="model")
 
-    print("Run with ID" + mlflow.tracking.active_run().info.run_uuid + "finished")
-
+    run_id = mlflow.tracking.active_run().info.run_uuid
+    print("Run with id %s finished" % run_id)

@@ -40,7 +40,10 @@ Calling an app from your code is simple  - just use MLflow's [Python API](https:
 train_data_path = "..."
 test_data_path = "..."
 label_col = "..."
-mlflow.projects.run(uri="git@github.com:databricks/mlflow-apps.git#examples/gbt-regression/", parameters=[("training-data-path", train_data_path), ("test-data-path", test_data_path), ("label-col", label_col)])
+# Running the MLflow project
+run_info = mlflow.projects.run(uri="git@github.com:databricks/mlflow-apps.git#examples/gbt-regression/", parameters={"training-data-path":train_data_path, "test-data-path":test_data_path, "label-col":label_col})
+# Load the model again for inference or more training
+model = mlflow.sklearn.load_model("model", run_info.run_id)
 ```
 
 ## Apps
